@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="P_Layer.Views.HomePage"
+             
+             xmlns:viewModels="clr-namespace:P_Layer.ViewModels;assembly=P_Layer"
+             x:DataType="viewModels:HomePageViewModel">
+    <ContentPage.BindingContext>
+        <viewModels:HomePageViewModel/>
+    </ContentPage.BindingContext>
+
+
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding HomepageText}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Button 
+                Text="Login"
+                BackgroundColor="black"
+                CornerRadius="20"
+                Command="{Binding IncreaseCount}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

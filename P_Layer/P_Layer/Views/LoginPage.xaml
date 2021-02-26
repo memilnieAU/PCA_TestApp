@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="P_Layer.Views.LoginPage"
+
+    xmlns:viewModels="clr-namespace:P_Layer.ViewModels;assembly=P_Layer"
+    x:DataType="viewModels:LoginViewModel"
+    >
+    <ContentPage.BindingContext >
+        <viewModels:LoginViewModel/>
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" >
+                <Label
+                    Text="Tryk for at logge ind ==============>"
+                    BackgroundColor="Transparent"
+                    VerticalTextAlignment="Start"
+                    HorizontalTextAlignment="Center"
+                    FontSize="20"
+                    Padding="10"
+                    />
+                <Button 
+                Text="Login"
+                BackgroundColor="black"
+                    CornerRadius="20"
+                Command="{Binding IncreaseCount}"/>
+                <Button
+                    Text="Ny bruger"
+                    BackgroundColor="black"
+                    CornerRadius="20"
+                    Command="{Binding AddUser}"
+                />
+            </StackLayout >
+            <Label BackgroundColor="AliceBlue"  Padding="20" Text="{Binding LoginText}" VerticalOptions="Center" CharacterSpacing="3" FlowDirection="RightToLeft" TextColor="#E61414" TextDecorations="Underline" TextTransform="Uppercase" TextType="Text" VerticalTextAlignment="Start"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
