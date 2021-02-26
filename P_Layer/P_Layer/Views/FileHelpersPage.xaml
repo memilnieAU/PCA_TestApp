@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:P_Layer.ViewModels;assembly=P_Layer"
+             x:Class="P_Layer.Views.FileHelpersPage"
+
+             x:DataType="viewModels:FileHelpersViewModel">
+    <ContentPage.BindingContext>
+        <viewModels:FileHelpersViewModel/>
+    </ContentPage.BindingContext>
+
+
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Button 
+                Text="Reset text"
+                BackgroundColor="Blue"
+                CornerRadius="20"
+                Command="{Binding ResetLoadText}"/>
+            <Label Text="{Binding ShowFilePath}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="{Binding LoadText}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+            <Editor Text="{Binding LoadText}"
+                    IsSpellCheckEnabled="True"
+                    BackgroundColor="Gray"
+                   
+                    />
+            <StackLayout Orientation="Horizontal">
+                
+            <Button 
+                Text="Load from Assets"
+                BackgroundColor="black"
+                CornerRadius="20"
+                Command="{Binding LoadFromAssets}"/>
+                <StackLayout>
+
+            <Button 
+                Text="Load from External Storage"
+                BackgroundColor="Blue"
+                CornerRadius="20"
+                Command="{Binding LoadFromExternalStorage}"/>
+            <Button 
+                Text="Save To External Storage"
+                BackgroundColor="red"
+                CornerRadius="20"
+                Command="{Binding SaveToExternalStorage}"/>
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

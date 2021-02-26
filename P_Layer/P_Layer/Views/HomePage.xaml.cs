@@ -21,8 +21,6 @@ namespace P_Layer.Views
         public HomePage()
         {
             InitializeComponent();
-            var cacheDir = FileSystem.CacheDirectory;
-            var mainDir = FileSystem.AppDataDirectory;
         }
      
 }

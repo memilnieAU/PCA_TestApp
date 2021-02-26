@@ -9,12 +9,9 @@ using Android;
 using Android.Content.PM;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
-
 using MvvmHelpers.Commands;
-using PCLStorage;
 using Plugin.AudioRecorder;
 using Xamarin.Essentials;
-using FileSystem = PCLStorage.FileSystem;
 
 namespace P_Layer.ViewModels
 {
@@ -36,6 +33,9 @@ namespace P_Layer.ViewModels
 
         }
 
+        private const string heartBeat = "Heart beat 5 ID 1930.wav";
+        const string localPath = "TheFile.txt";
+
         private string _HomepageText = "Du har nu åbnet Homepage";
 
         public string HomepageText
@@ -52,6 +52,7 @@ namespace P_Layer.ViewModels
             await RecordAudio();
         }
 
+        string audioFile;
         async Task RecordAudio()
         {
             try
@@ -64,10 +65,12 @@ namespace P_Layer.ViewModels
                     var filePath = recorder.GetAudioFilePath();
                     //HomepageText = recorder.FilePath;
                     HomepageText += "\n&&&&&&&&&&&&&&\n" + recorder.GetAudioFileStream();
-                    HomepageText += "\n&&&&&&&&&&&&&&\n" + recorder.GetAudioFilePath();
+                    HomepageText += "\n%%%%%%%%%%%\n" + recorder.GetAudioFilePath();
 
                     player.Play(filePath);
-                    PCLStorageSample();
+
+                    HomepageText= (File.ReadAllText(filePath));
+
 
                 }
                 else if (!recorder.IsRecording)
@@ -86,27 +89,9 @@ namespace P_Layer.ViewModels
             }
 
         }
-        string audioFile;
-        public async Task PCLStorageSample()
-        {
-            IFolder rootFolder = FileSystem.Current.LocalStorage;
-            IFolder folder = await rootFolder.CreateFolderAsync("MySubFolder",
-                CreationCollisionOption.OpenIfExists);
-            IFile file = await folder.CreateFileAsync("answer.txt",
-                CreationCollisionOption.ReplaceExisting);
-            await file.WriteAllTextAsync(recorder.PreferredSampleRate.ToString());
-            HomepageText += "\n@@@@@@@@@@@@@@\n" + recorder.AudioStreamDetails;
-            HomepageText += "\n@@@@@@@@@@@@@@\n" + file.Path;
-            var cacheDir = Xamarin.Essentials.FileSystem.CacheDirectory;
-            Vibration.Vibrate();
-            using (var stream = await Xamarin.Essentials.FileSystem.OpenAppPackageFileAsync(recorder.GetAudioFilePath()))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    var fileContents = await reader.ReadToEndAsync();
-                }
-            }
-        }
+       
+
+        
 
 
     }
