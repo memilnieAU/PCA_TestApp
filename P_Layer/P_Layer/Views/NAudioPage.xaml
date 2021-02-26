@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="P_Layer.Views.NAudioPage"
+    xmlns:viewModels="clr-namespace:P_Layer.ViewModels;assembly=P_Layer"
+    x:DataType="viewModels:NAudioViewModel">
+    <ContentPage.BindingContext>
+        <viewModels:NAudioViewModel/>
+    </ContentPage.BindingContext>
+
+
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Status}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+            <Button 
+                x:Name="myButton"
+                Text="Start Record"
+                BackgroundColor="blue"
+                CornerRadius="20"
+                Command="{Binding StartRecordCommand}"
+              />
+          
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
