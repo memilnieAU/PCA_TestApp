@@ -10,8 +10,8 @@ using Android.Content.PM;
 using Android.Media; //Denne bruges til MediaPlayer
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
-using MvvmHelpers.Commands;
-using Plugin.AudioRecorder;
+using MvvmHelpers.Commands; 
+using Plugin.AudioRecorder; //
 using Xamarin.Essentials;
 
 namespace P_Layer.ViewModels
@@ -66,7 +66,7 @@ namespace P_Layer.ViewModels
                     HomepageText = recorder.IsRecording.ToString();
 
                     var filePath = recorder.GetAudioFilePath();
-                    //HomepageText = recorder.FilePath;
+                    //PageText = recorder.FilePath;
                     HomepageText += "\n&&&&&&&&&&&&&&\n" + recorder.GetAudioFileStream();
                     HomepageText += "\n%%%%%%%%%%%\n" + recorder.GetAudioFilePath();
 

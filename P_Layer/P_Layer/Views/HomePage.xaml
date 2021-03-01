@@ -17,7 +17,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button 
-                Text="Login"
+                Text="Record"
                 BackgroundColor="black"
                 CornerRadius="20"
                 Command="{Binding IncreaseCount}"/>

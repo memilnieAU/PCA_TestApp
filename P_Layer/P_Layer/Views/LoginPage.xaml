@@ -16,7 +16,7 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" >
                 <Label
                     Text="Tryk for at logge ind ==============>"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="BlueViolet"
                     VerticalTextAlignment="Start"
                     HorizontalTextAlignment="Center"
                     FontSize="20"
