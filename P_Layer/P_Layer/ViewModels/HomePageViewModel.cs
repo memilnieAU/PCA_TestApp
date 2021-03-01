@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Android;
 using Android.Content.PM;
+using Android.Media; //Denne bruges til MediaPlayer
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using MvvmHelpers.Commands;
@@ -19,6 +20,8 @@ namespace P_Layer.ViewModels
     {
         private AudioRecorderService recorder;
         AudioPlayer player;
+        private MediaPlayer mediaPlayer;
+        private MediaRecorder mediaRecorder;
         public HomePageViewModel()
         {
             Title = "Home Page new";
@@ -69,8 +72,7 @@ namespace P_Layer.ViewModels
 
                     player.Play(filePath);
 
-                    HomepageText= (File.ReadAllText(filePath));
-
+                    HomepageText = (File.ReadAllText(filePath));
 
                 }
                 else if (!recorder.IsRecording)
