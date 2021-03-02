@@ -20,7 +20,7 @@ namespace P_Layer.ViewModels
             //recorder.FilePath = @""; Denne skal vi sætte til vores egen sti, så snart vi ved hvor!
             player = new AudioPlayer();
             RecordAudioCommand = new Command(StartRecordTask);
-            PlayAudioCommand = new Command(PlayRecording);
+            PlayAudioCommand = new Command(PlayRecordingTask);
         }
 
         private string _pageText = "Du har nu åbnet Plugin Audio Recorder skærmen";
@@ -76,7 +76,7 @@ namespace P_Layer.ViewModels
 
         }
 
-        private void PlayRecording()
+        private void PlayRecordingTask()
         {
             player.Play(FilePath);
 
