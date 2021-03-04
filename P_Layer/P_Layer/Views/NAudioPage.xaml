@@ -16,12 +16,20 @@
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
             <Button 
-                x:Name="myButton"
                 Text="Start Record"
                 BackgroundColor="blue"
                 CornerRadius="20"
                 Command="{Binding StartRecordCommand}"
               />
+            <Label Text="{Binding RecordingStatus}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+            <Button 
+                Text="Stop Record"
+                BackgroundColor="Cyan"
+                CornerRadius="20"
+                Command="{Binding StopRecordCommand}"
+            />
           
         </StackLayout>
     </ContentPage.Content>
