@@ -4,8 +4,10 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Java.Nio.FileNio;
 using Plugin.AudioRecorder;
 using MvvmHelpers.Commands;
+using P_Layer.XML;
 
 namespace P_Layer.ViewModels
 {
@@ -13,6 +15,8 @@ namespace P_Layer.ViewModels
     {
         private AudioRecorderService recorder;
         private AudioPlayer player;
+        private string testfilnavn = "Testfil";
+
 
         public PluginAudioRecorderViewModel()
         {
@@ -64,7 +68,6 @@ namespace P_Layer.ViewModels
                 else if (!recorder.IsRecording)
                 {
                     var audioRecordTask = await recorder.StartRecording();
-
                     PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString();
                     //audioFile = await audioRecordTask;
                 }
@@ -79,7 +82,6 @@ namespace P_Layer.ViewModels
         private void PlayRecordingTask()
         {
             player.Play(FilePath);
-
         }
 
     }
