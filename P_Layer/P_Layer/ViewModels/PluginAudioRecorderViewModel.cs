@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Plugin.AudioRecorder;
 using MvvmHelpers.Commands;
-using Xamarin.Essentials;
 
 namespace P_Layer.ViewModels
 {
@@ -14,6 +13,7 @@ namespace P_Layer.ViewModels
     {
         private AudioRecorderService recorder;
         private AudioPlayer player;
+
         public PluginAudioRecorderViewModel()
         {
             recorder = new AudioRecorderService();
@@ -46,6 +46,7 @@ namespace P_Layer.ViewModels
             await RecordAudio();
         }
 
+        string audioFile;
         async Task RecordAudio()
         {
             try
@@ -55,17 +56,16 @@ namespace P_Layer.ViewModels
                     await recorder.StopRecording();
                     PageText = "Bliver der optaget lige nu: " + recorder.IsRecording.ToString();
 
-                    FilePath = recorder.FilePath; //Henter filstien til lydfil og gemmer i vores prop til øvrige metoder bla visning til skærm.
+                    FilePath = recorder.FilePath; //Henter filstien til lydfil og gemmer i vores prop til øvrige metoder.
+
+                    //PageText = (File.ReadAllText(filePath)); virker ikke at læse datapunkter ind fra lydfilen.
 
                 }
                 else if (!recorder.IsRecording)
                 {
                     var audioRecordTask = await recorder.StartRecording();
-                    var newFile = Path.Combine(FileSystem.CacheDirectory, "ARS_recording.wav");
-                    using(var stream = recorder.GetAudioFileStream())
-                    using (var newStream = File.OpenWrite(newFile))
-                        await stream.CopyToAsync(newStream);
-                    PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString() + "\nLokation for appData: "+FileSystem.AppDataDirectory.ToString();
+
+                    PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString();
                     //audioFile = await audioRecordTask;
                 }
             }
@@ -78,14 +78,7 @@ namespace P_Layer.ViewModels
 
         private void PlayRecordingTask()
         {
-            if (FilePath == null)
-            {
-                player.Play(Path.Combine(FileSystem.CacheDirectory, "ARS_recording.wav"));
-            }
-            else
-            {
-                player.Play(FilePath);
-            }
+            player.Play(FilePath);
 
         }
 
