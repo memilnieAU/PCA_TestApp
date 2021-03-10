@@ -26,6 +26,13 @@ namespace P_Layer.ViewModels
             RecordAudioCommand = new Command(StartRecordTask);
             PlayAudioCommand = new Command(PlayRecordingTask);
         }
+        private string sampleRate;
+
+        public string SampleRate
+        {
+            get => sampleRate;
+            set => SetProperty(ref sampleRate, value);
+        }
 
         private string _pageText = "Du har nu åbnet Plugin Audio Recorder skærmen";
 

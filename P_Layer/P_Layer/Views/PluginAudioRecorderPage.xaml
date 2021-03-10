@@ -18,7 +18,7 @@
                     BackgroundColor="black"
                     CornerRadius="20"/>
             <Entry
-                Text="{Binding Samplerate}"
+                Text="{Binding SampleRate}"
                 BackgroundColor="Aquamarine"
                 />
 
