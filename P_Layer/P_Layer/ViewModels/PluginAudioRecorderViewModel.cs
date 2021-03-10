@@ -21,6 +21,15 @@ namespace P_Layer.ViewModels
             player = new AudioPlayer();
             RecordAudioCommand = new Command(StartRecordTask);
             PlayAudioCommand = new Command(PlayRecordingTask);
+            Samplerate = recorder.PreferredSampleRate.ToString();
+        }
+
+        private string samplerate;
+
+        public string Samplerate
+        {
+            get => samplerate;
+            set => SetProperty(ref samplerate, value);
         }
 
         private string _pageText = "Du har nu åbnet Plugin Audio Recorder skærmen";
@@ -56,15 +65,15 @@ namespace P_Layer.ViewModels
                     PageText = "Bliver der optaget lige nu: " + recorder.IsRecording.ToString();
 
                     FilePath = recorder.FilePath; //Henter filstien til lydfil og gemmer i vores prop til øvrige metoder bla visning til skærm.
-
                 }
                 else if (!recorder.IsRecording)
                 {
+                    recorder.PreferredSampleRate = Convert.ToInt32(Samplerate);
                     var audioRecordTask = await recorder.StartRecording();
-                    var newFile = Path.Combine(FileSystem.CacheDirectory, "ARS_recording.wav");
-                    using(var stream = recorder.GetAudioFileStream())
-                    using (var newStream = File.OpenWrite(newFile))
-                        await stream.CopyToAsync(newStream);
+                    //var newFile = Path.Combine(FileSystem.AppDataDirectory, "ARS_recording.wav");
+                    //using(var stream = recorder.GetAudioFileStream())
+                    //using (var newStream = File.OpenWrite(newFile))
+                    //    await stream.CopyToAsync(newStream);
                     PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString() + "\nLokation for appData: "+FileSystem.AppDataDirectory.ToString();
                     //audioFile = await audioRecordTask;
                 }
@@ -73,21 +82,18 @@ namespace P_Layer.ViewModels
             {
                 throw ex;
             }
-
         }
 
         private void PlayRecordingTask()
         {
             if (FilePath == null)
             {
-                player.Play(Path.Combine(FileSystem.CacheDirectory, "ARS_recording.wav"));
+                player.Play(Path.Combine(FileSystem.AppDataDirectory, "ARS_recording.wav"));
             }
             else
             {
                 player.Play(FilePath);
             }
-
         }
-
     }
 }

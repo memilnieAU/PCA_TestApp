@@ -14,20 +14,25 @@
                    BackgroundColor="Black"/>
 
             <Button Command="{Binding RecordAudioCommand}"
-                                                                      Text="Record and stop record"
-                                                                      BackgroundColor="black"
-                                                                      CornerRadius="20"/>
+                    Text="Record and stop record"
+                    BackgroundColor="black"
+                    CornerRadius="20"/>
+            <Entry
+                Text="{Binding Samplerate}"
+                BackgroundColor="Aquamarine"
+                />
+
             <Label Text="{Binding FilePath}"
                    BackgroundColor="Black"
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
             <Label Text="{Binding PageText}"
-                   BackgroundColor="Black"
+                   BackgroundColor="BlueViolet"
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
             <Button Command="{Binding PlayAudioCommand}"
                     Text="Play the sound of recording"
-                    BackgroundColor="black"
+                    BackgroundColor="LightYellow"
                     CornerRadius="20"/>
         </StackLayout>
     </ContentPage.Content>

@@ -4,25 +4,70 @@ using System.IO;
 using System.Text;
 using System.Windows.Input;
 using MvvmHelpers.Commands;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xamarin.Essentials;
 
 namespace P_Layer.ViewModels
 {
-    class FileHelpersViewModel : ViewModelBase
+    class TestChildClass
+    {
+        public string ChildText = "This is the child";
+    }
+    class testcalse
     {
 
+        TestChildClass TestChildClass = new TestChildClass();
+        public string test = "Test String";
+    }
+    class FileHelpersViewModel : ViewModelBase
+    {
+       
         //https://docs.microsoft.com/en-gb/xamarin/essentials/file-system-helpers?tabs=android
 
+            string mainDor;
         public FileHelpersViewModel()
         {
             Title = "File Page new";
+            LoadJson = new Command(LoadJson_Method);
+            SaveJson = new Command(SaveJson_Method);
             LoadFromAssets = new Command(LoadFromAssets_Method);
             LoadFromExternalStorage = new Command(LoadFromExternalStorage_Method);
             SaveToExternalStorage = new Command(SaveToExternalStorage_Method);
             ResetLoadText = new Command(ResetLoadText_Method);
-            var mainDor = FileSystem.AppDataDirectory;
+            mainDor = FileSystem.AppDataDirectory;
             localPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ExternalFileName);
             //localPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ExternalFileName);
+        }
+
+        private void LoadJson_Method()
+        {
+            string filePath = Path.Combine(mainDor, "employee.json");
+           
+            // read JSON directly from a file
+            using (StreamReader file = File.OpenText(filePath))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                JObject o2 = (JObject)JToken.ReadFrom(reader);
+                JsonSerializer jsonSerializer = new JsonSerializer();
+
+            }
+
+            using FileStream openStream = File.OpenRead(filePath);
+            //  weatherForecast = await JsonSerializer.DeserializeAsync<WeatherForecast>(openStream);
+        }
+
+        private void SaveJson_Method()
+        {
+            testcalse t = new testcalse();
+            string json = JsonConvert.SerializeObject(t);
+
+            string filePath = Path.Combine(mainDor, "employee.json");
+            using (var file = File.Open(filePath, FileMode.Create, FileAccess.Write))
+            using (var strm = new StreamWriter(file))
+            {
+                strm.Write(json);
+            }
         }
 
         private string localPath;
@@ -49,6 +94,11 @@ namespace P_Layer.ViewModels
         public ICommand SaveToExternalStorage { get; }
         public ICommand ResetLoadText { get; }
 
+        public ICommand LoadJson { get; }
+        public ICommand SaveJson { get; }
+
+        
+
         async private void LoadFromAssets_Method()
         {
             using (var stream = await FileSystem.OpenAppPackageFileAsync(templateFileName))
@@ -57,8 +107,10 @@ namespace P_Layer.ViewModels
                 {
                     LoadText = await reader.ReadToEndAsync();
                 }
+                ShowFilePath = templateFileName;
+
+               
             }
-            ShowFilePath = templateFileName;
         }
 
 
@@ -69,7 +121,7 @@ namespace P_Layer.ViewModels
             try
             {
                 LoadText = File.ReadAllText(localPath);
-                
+
             }
             catch (Exception e)
             {

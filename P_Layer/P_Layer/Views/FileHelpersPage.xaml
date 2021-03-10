@@ -18,6 +18,17 @@
                 BackgroundColor="Blue"
                 CornerRadius="20"
                 Command="{Binding ResetLoadText}"/>
+            <Button 
+                Text="Save Json"
+                BackgroundColor="Blue"
+                CornerRadius="20"
+                Command="{Binding SaveJson}"/>
+            <Button 
+                Text="Load Json"
+                BackgroundColor="Blue"
+                CornerRadius="20"
+                Command="{Binding LoadJson}"/>
+
             <Label Text="{Binding ShowFilePath}"
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
