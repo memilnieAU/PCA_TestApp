@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Java.Nio.FileNio;
 using Plugin.AudioRecorder;
 using MvvmHelpers.Commands;
+using P_Layer.DTO;
 using P_Layer.XML;
 using Xamarin.Essentials;
 using FileSystem = Xamarin.Essentials.FileSystem;
@@ -19,7 +20,7 @@ namespace P_Layer.ViewModels
         private AudioRecorderService recorder;
         private AudioPlayer player;
         public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
-
+        private Measurement measureDTO;
 
         public PluginAudioRecorderViewModel()
         {
@@ -72,6 +73,7 @@ namespace P_Layer.ViewModels
 
                     using (var stream = recorder.GetAudioFileStream())
                     {
+                        measureDTO.SoundStream = stream;
                         SaveFileStream(_filePath,stream);
                     }
 
@@ -82,6 +84,7 @@ namespace P_Layer.ViewModels
                     {
                         await recorder.StartRecording();
                         PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString();
+                        measureDTO = new Measurement(DateTime.Now);
                     }
                 }
             }
@@ -95,7 +98,15 @@ namespace P_Layer.ViewModels
         private void PlayRecordingTask()
         {
             //player.Play(FilePath);
-            player.Play(_filePath);
+            try
+            {
+                player.Play(_filePath);
+                PageText = "Dato for optagelse: " + measureDTO.StartTime.ToString(); //Dette er kun for test og ikke en reel feature.
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Der var sku ikke nogen fil at afspille");
+            }
         }
         private void SaveFileStream(String path, Stream stream)
         {

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace P_Layer.DTO
 {
     public class Measurement
     {
-        public List<SoundSamples> SoundSamplesList { get; set; }
+        //public List<SoundSamples> SoundSamplesList { get; set; } erstattes af Stream per 10.03.21
+        public Stream SoundStream { get; set; }
         public DateTime StartTime { get; set; }
         public int ProbabilityProcent { get; set; }
         public int PatientID { get; set; }
@@ -20,19 +22,19 @@ namespace P_Layer.DTO
             set { placement = value;}
         }
 
-        public Measurement(DateTime start, int probProcent, int patID, int profID)
+        public Measurement(DateTime start)
         {
-            SoundSamplesList = new List<SoundSamples>();
+            //SoundSamplesList = new List<SoundSamples>();
             StartTime = start;
-            ProbabilityProcent = probProcent;
-            PatientID = patID;
-            HealthProfessionalID = profID;
+            //ProbabilityProcent = probProcent;
+            //PatientID = patID;
+            //HealthProfessionalID = profID;
             //CurrentPlacementOfDevice = placementOfDevice;
         }
 
         public Measurement()
         {
-            SoundSamplesList = new List<SoundSamples>();
+            //SoundSamplesList = new List<SoundSamples>();
         }
     }
 }
