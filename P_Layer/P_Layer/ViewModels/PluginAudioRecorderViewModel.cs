@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,6 +9,8 @@ using Java.Nio.FileNio;
 using Plugin.AudioRecorder;
 using MvvmHelpers.Commands;
 using P_Layer.XML;
+using Xamarin.Essentials;
+using FileSystem = Xamarin.Essentials.FileSystem;
 
 namespace P_Layer.ViewModels
 {
@@ -15,13 +18,12 @@ namespace P_Layer.ViewModels
     {
         private AudioRecorderService recorder;
         private AudioPlayer player;
-        private string testfilnavn = "Testfil";
+        public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
 
 
         public PluginAudioRecorderViewModel()
         {
             recorder = new AudioRecorderService();
-            //recorder.FilePath = @""; Denne skal vi sætte til vores egen sti, så snart vi ved hvor!
             player = new AudioPlayer();
             RecordAudioCommand = new Command(StartRecordTask);
             PlayAudioCommand = new Command(PlayRecordingTask);
@@ -41,12 +43,12 @@ namespace P_Layer.ViewModels
             get => _pageText;
             set => SetProperty(ref _pageText, value);
         }
-        private string _filePathText = @"";
+        private string _recorderFilePathText = @"";
 
-        public string FilePath
+        public string RecorderFilePath
         {
-            get => _filePathText;
-            set => SetProperty(ref _filePathText, value);
+            get => _recorderFilePathText;
+            set => SetProperty(ref _recorderFilePathText, value);
         }
 
         public ICommand RecordAudioCommand { get; }
@@ -57,7 +59,6 @@ namespace P_Layer.ViewModels
             await RecordAudio();
         }
 
-        string audioFile;
         async Task RecordAudio()
         {
             try
@@ -67,16 +68,21 @@ namespace P_Layer.ViewModels
                     await recorder.StopRecording();
                     PageText = "Bliver der optaget lige nu: " + recorder.IsRecording.ToString();
 
-                    FilePath = recorder.FilePath; //Henter filstien til lydfil og gemmer i vores prop til øvrige metoder.
+                    RecorderFilePath = recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
 
-                    //PageText = (File.ReadAllText(filePath)); virker ikke at læse datapunkter ind fra lydfilen.
+                    using (var stream = recorder.GetAudioFileStream())
+                    {
+                        SaveFileStream(_filePath,stream);
+                    }
 
                 }
-                else if (!recorder.IsRecording)
+                else
                 {
-                    var audioRecordTask = await recorder.StartRecording();
-                    PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString();
-                    //audioFile = await audioRecordTask;
+                    if (!recorder.IsRecording)
+                    {
+                        await recorder.StartRecording();
+                        PageText = "Bliver der optaget lige nu: "+ recorder.IsRecording.ToString();
+                    }
                 }
             }
             catch (Exception ex)
@@ -88,8 +94,14 @@ namespace P_Layer.ViewModels
 
         private void PlayRecordingTask()
         {
-            player.Play(FilePath);
+            //player.Play(FilePath);
+            player.Play(_filePath);
         }
-
+        private void SaveFileStream(String path, Stream stream)
+        {
+            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
+            stream.CopyTo(fileStream);
+            fileStream.Dispose();
+        }
     }
 }

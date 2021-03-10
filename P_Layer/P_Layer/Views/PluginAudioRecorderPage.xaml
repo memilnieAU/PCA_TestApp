@@ -10,29 +10,37 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Plugin Audio Recorder!"
-                   BackgroundColor="Black"/>
+            <Label Text="{Binding PageText}"
+                   BackgroundColor="SandyBrown"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    Text="SampleRate:"
+                    TextColor="Black"
+                    FontSize="Large"
+                    VerticalOptions="Center"
+                    />
+                    <Entry
+                    Text="{Binding SampleRate}"
+                    BackgroundColor="WhiteSmoke"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                />
+            </StackLayout>
+           
 
+            <Label Text="{Binding RecorderFilePath}"
+                   BackgroundColor="LimeGreen"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
             <Button Command="{Binding RecordAudioCommand}"
                     Text="Record and stop record"
-                    BackgroundColor="black"
+                    BackgroundColor="Red"
                     CornerRadius="20"/>
-            <Entry
-                Text="{Binding SampleRate}"
-                BackgroundColor="Aquamarine"
-                />
-
-            <Label Text="{Binding FilePath}"
-                   BackgroundColor="Black"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
-            <Label Text="{Binding PageText}"
-                   BackgroundColor="BlueViolet"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
             <Button Command="{Binding PlayAudioCommand}"
                     Text="Play the sound of recording"
-                    BackgroundColor="LightYellow"
+                    BackgroundColor="LimeGreen"
                     CornerRadius="20"/>
         </StackLayout>
     </ContentPage.Content>
