@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace P_Layer.DTO
+﻿namespace D_Layer.DTO
 {
     public class SoundSamples
     {
