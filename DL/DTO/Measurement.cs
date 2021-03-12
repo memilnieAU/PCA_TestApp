@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace D_Layer.DTO
+namespace DL.DTO
 {
     public class Measurement
     {

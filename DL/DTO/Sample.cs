@@ -1,4 +1,4 @@
-﻿namespace D_Layer.DTO
+﻿namespace DL.DTO
 {
     public class Sample
     {

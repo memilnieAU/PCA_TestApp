@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using DL.DTO;
 
-namespace B_Layer
+namespace DL
 {
-    public interface IAudioController
+    public interface IRecorder
     {
-        void PlayRecordingTask();
+        void PlayRecording();
         void SaveFileStream(String path, Stream stream);
-        Task RecordAudio();
-
-
+        Task<Measurement> RecordAudio();
     }
 }
