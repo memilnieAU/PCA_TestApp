@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using DL.DTO;
+using DL.EventArgs;
 using Plugin.AudioRecorder;
 using Xamarin.Essentials;
 
@@ -59,8 +60,16 @@ namespace DL
                 SaveFileStream(_filePath, stream); //Appdatadirectory sti
             }
             Debug.WriteLine("Vi har modtaget en event som vi lige har ageret på" + DateTime.Now.ToString());
+
             
             
+            OnRecordingFinished(new RecordFinishedEventArgs
+            {
+                measureDTO = this.measureDTO
+            });
+            
+            #region Stopwatch
+
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -68,9 +77,18 @@ namespace DL
                 ts.Milliseconds / 10);
             Debug.WriteLine("RunTime " + elapsedTime);
             stopWatch = new Stopwatch();
+            
+
+            #endregion
         }
 
-       
+        protected virtual void OnRecordingFinished(RecordFinishedEventArgs e)
+        {
+            RecordFinishedEvent?.Invoke(this, e);
+        }
+
+        public event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
+
 
         public async Task<Measurement> RecordAudio()
         {

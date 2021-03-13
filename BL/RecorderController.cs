@@ -4,6 +4,7 @@ using Plugin.AudioRecorder;
 using DL.DTO;
 using Xamarin.Essentials;
 using DL;
+using DL.EventArgs;
 
 
 namespace BL
@@ -34,21 +35,34 @@ namespace BL
 
         public RecorderController()
         {
-            _recorderLogic = new RecorderLogic();
+            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic();
+           
         }
 
 
         public void PlayRecording()
         {
-            _soundModifyLogic.PlayRecording();
+            _soundModifyLogic.PlayRecording(MeasureDTO.SoundStream);
         }
-
-
 
         public async Task RecordAudio()
         {
             await _recorderLogic.RecordAudio();
+        }
+        private Measurement _measureDTO;
+
+        public Measurement MeasureDTO
+        {
+            get { return _measureDTO; }
+            set { _measureDTO = value; }
+        }
+
+
+        private void HandleRecordingFinishedEvent(object sender, RecordFinishedEventArgs e)
+        {
+            MeasureDTO = e.measureDTO;
+            //Her skal analysen startes og sendes til databasen
         }
     }
 }

@@ -16,6 +16,10 @@ namespace DL
         {
             player = new AudioPlayer();
         }
+
+        /// <summary>
+        /// Her bliver der afspillede lyd fra default filen i AppDataDir
+        /// </summary>
         public void PlayRecording()
         {
             Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig" + DateTime.Now.ToString());
@@ -29,12 +33,28 @@ namespace DL
             }
         }
 
+
+        /// <summary>
+        /// Her bliver der afspillede en bestemt stream som skal injectieres.
+        /// Denne Stream vil blive gemt i AppDataDir,
+        /// hvorefter den bliver afspillet med vores default PlayRecording().
+        /// 
+        /// Dette er smart når vi skal til at hente tidligere målinger,
+        /// da disse som udgangspunkt IKKE er gemt i AppDataDir fra start af.
+        /// </summary>
+        /// <param name="sound">Den specefikke lyd der ønskes afspillet</param>
         public void PlayRecording(Stream sound)
         {
             SaveFileStream(_filePath, sound);
             PlayRecording();
         }
 
+
+       /// <summary>
+       /// Kan gemme et Stream objekt ned i en fil, hvis sti medtages som parameter
+       /// </summary>
+       /// <param name="path">Sti hvor lyden er gemt</param>
+       /// <param name="stream">Lyden der skal gemmes</param>
         private void SaveFileStream(string path, Stream stream)
         {
             var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);

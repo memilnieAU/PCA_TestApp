@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DL;
 
 namespace BL
 {
     public class SoundModifyLogic : ISoundModifyLogic
     {
-        private SoundPlayer _soundPlayer;
+        private ISoundPlayer _soundPlayer;
 
         public SoundModifyLogic()
         {
