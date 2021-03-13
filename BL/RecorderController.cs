@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.AudioRecorder;
 using DL.DTO;
 using Xamarin.Essentials;
+using DL;
 
 
 namespace BL
@@ -27,19 +28,24 @@ namespace BL
             get { return _sampleRate;}
             set { _sampleRate = value; }
         }
+
+        
+        private IRecorderLogic _recorder;
    
 
         public RecorderController()
         {
-            recorder = new AudioRecorderService();
-            player = new AudioPlayer();
-        }
-        public void PlayRecording()
-        {
-            
+            _recorder = new RecorderLogic();
         }
 
-        public void SaveFileStream(string path, Stream stream)
+
+        public void PlayRecording()
+        {
+            _recorder.PlayRecording();
+        }
+
+
+        public void SaveFileStream()
         {
             
         }
@@ -47,7 +53,7 @@ namespace BL
 
         public async Task RecordAudio()
         {
-            
+            await _recorder.RecordAudio();
         }
     }
 }

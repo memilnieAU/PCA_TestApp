@@ -38,10 +38,19 @@ namespace P_Layer.ViewModels
             get => _recorderFilePath;
             set => SetProperty(ref _recorderFilePath, value);
         }
-     
+
+        private string _sampleRate;
+
+        public string SampleRate
+        {
+            get { return _sampleRate; }
+            set { _sampleRate = value; }
+        }
+
 
         public ICommand RecordAudioCommand { get; }
         public ICommand PlayAudioCommand { get; }
+
         private async void StartRecordTask()
         {
             PageText = ctrl.PageText;

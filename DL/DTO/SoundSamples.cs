@@ -1,4 +1,7 @@
-﻿namespace DL.DTO
+﻿using System;
+using System.Collections.Generic;
+
+namespace DL.DTO
 {
     public class SoundSamples
     {
