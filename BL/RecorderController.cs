@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Plugin.AudioRecorder;
 using DL.DTO;
@@ -17,7 +16,7 @@ namespace BL
 
         public string PageText
         {
-            get { return _pageText;}
+            get { return _pageText; }
             set { _pageText = value; }
         }
         //RecorderController skal sørge for at udskrive vigtige meddelelser ifbm. recording!!!!!!!!!!!
@@ -25,35 +24,31 @@ namespace BL
 
         public string SampleRate
         {
-            get { return _sampleRate;}
+            get { return _sampleRate; }
             set { _sampleRate = value; }
         }
 
-        
-        private IRecorderLogic _recorder;
-   
+
+        private IRecorderLogic _recorderLogic;
+        private ISoundModifyLogic _soundModifyLogic;
 
         public RecorderController()
         {
-            _recorder = new RecorderLogic();
+            _recorderLogic = new RecorderLogic();
+            _soundModifyLogic = new SoundModifyLogic();
         }
 
 
         public void PlayRecording()
         {
-            _recorder.PlayRecording();
+            _soundModifyLogic.PlayRecording();
         }
 
-
-        public void SaveFileStream()
-        {
-            
-        }
 
 
         public async Task RecordAudio()
         {
-            await _recorder.RecordAudio();
+            await _recorderLogic.RecordAudio();
         }
     }
 }

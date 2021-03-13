@@ -9,8 +9,6 @@ namespace DL
 {
     public interface IRecorder
     {
-        void PlayRecording();
-        void SaveFileStream(String path, Stream stream);
         Task<Measurement> RecordAudio();
     }
 }

@@ -7,7 +7,6 @@ namespace BL
     public interface IRecorderController
     {
         void PlayRecording();
-        void SaveFileStream();
         Task RecordAudio();
 
 

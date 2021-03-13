@@ -12,15 +12,7 @@ namespace BL
         {
             _recorder = new Recorder();
         }
-        public void PlayRecording()
-        {
-            _recorder.PlayRecording();
-        }
-
-        public void SaveFileStream()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task RecordAudio()
         {

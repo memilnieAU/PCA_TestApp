@@ -6,8 +6,6 @@ namespace BL
 {
     public interface IRecorderLogic
     {
-        void PlayRecording();
-        void SaveFileStream();
         Task RecordAudio();
     }
 }

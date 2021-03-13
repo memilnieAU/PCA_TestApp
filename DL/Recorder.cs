@@ -11,14 +11,13 @@ namespace DL
     public class Recorder : IRecorder
     {
         private AudioRecorderService recorder;
-        private AudioPlayer player;
+       
         public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
         private Measurement measureDTO;
 
         public Recorder()
         {
             recorder = new AudioRecorderService();
-            player = new AudioPlayer();
 
             recorder.StopRecordingOnSilence = false;
             recorder.StopRecordingAfterTimeout = true;
@@ -41,33 +40,8 @@ namespace DL
             set { _lengthOfRecording = value; }
         }
 
-        public void PlayRecording()
-        {
-            //using (var stream = recorder.GetAudioFileStream())
-            //{
-            //    measureDTO.SoundStream = stream;
-            //    SaveFileStream(_filePath, stream); //Appdatadirectory sti
-            //}
 
-            if (!recorder.IsRecording)
-            {
-                Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig" + DateTime.Now.ToString());
-                try
-                {
-                    player.Play(_filePath);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig, men kunne ikke afspille" + DateTime.Now.ToString());
-                }
-            }
-            else
-            {
-                Debug.WriteLine("Optagelsen forsøges afspillles, men optagelsen er stadig igang" + DateTime.Now.ToString());
-            }
-        }
-
-        public void SaveFileStream(string path, Stream stream)
+        private void SaveFileStream(string path, Stream stream)
         {
             var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
             stream.CopyTo(fileStream);
@@ -85,8 +59,9 @@ namespace DL
                 SaveFileStream(_filePath, stream); //Appdatadirectory sti
             }
             Debug.WriteLine("Vi har modtaget en event som vi lige har ageret på" + DateTime.Now.ToString());
+            
+            
             TimeSpan ts = stopWatch.Elapsed;
-
             // Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
@@ -95,7 +70,26 @@ namespace DL
             stopWatch = new Stopwatch();
         }
 
-        public async Task RecordTask()
+       
+
+        public async Task<Measurement> RecordAudio()
+        {
+
+            if (!recorder.IsRecording)
+            {
+                measureDTO = new Measurement(DateTime.Now);
+                await RecordTask();
+                RecorderFilePath = recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
+                return measureDTO;
+            }
+            else
+            {
+                measureDTO = new Measurement();
+                return measureDTO;
+            }
+
+        }
+        private async Task RecordTask()
         {
             try
             {
@@ -109,29 +103,6 @@ namespace DL
                 //Console.WriteLine(e);
                 throw;
             }
-        }
-
-        public async Task<Measurement> RecordAudio()
-        {
-
-            if (!recorder.IsRecording)
-            {
-                measureDTO = new Measurement(DateTime.Now);
-                await RecordTask();
-                //using (var stream = recorder.GetAudioFileStream())
-                //{
-                //    measureDTO.SoundStream = stream;
-                //    SaveFileStream(_filePath, stream); //Appdatadirectory sti
-                //}
-                RecorderFilePath = recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
-                return measureDTO;
-            }
-            else
-            {
-                measureDTO = new Measurement();
-                return measureDTO;
-            }
-
         }
     }
 }
