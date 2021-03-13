@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DL\DL.csproj" />
+    <ProjectReference Include="..\DTOs\DTOs.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,16 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Plugin.AudioRecorder;
-using DL.DTO;
 using Xamarin.Essentials;
 using DL;
-using DL.EventArgs;
+using DTOs;
+using EventArgss;
 
 
 namespace BL
 {
     public class RecorderController : IRecorderController
     {
+
         private Measurement measureDTO;
 
         private string _pageText = "Du har nu åbnet Plugin Audio Recorder skærmen";
@@ -32,12 +34,16 @@ namespace BL
 
         private IRecorderLogic _recorderLogic;
         private ISoundModifyLogic _soundModifyLogic;
+        private IAnalyzeLogic _analyse;
 
-        public RecorderController()
+        public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
+            
             _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic();
-           
+
+            _analyse = new AnalyzeLogic();
+            _analyse.AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
         }
 
 
@@ -58,11 +64,14 @@ namespace BL
             set { _measureDTO = value; }
         }
 
-
         private void HandleRecordingFinishedEvent(object sender, RecordFinishedEventArgs e)
         {
             MeasureDTO = e.measureDTO;
+            _analyse.Analyze(MeasureDTO);
             //Her skal analysen startes og sendes til databasen
         }
+
+
+        
     }
 }

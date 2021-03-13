@@ -1,4 +1,4 @@
-﻿namespace DL.DTO
+﻿namespace DTOs
 {
     public class Sample
     {

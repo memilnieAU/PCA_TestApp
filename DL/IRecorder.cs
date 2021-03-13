@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using DL.DTO;
-using DL.EventArgs;
+using DTOs;
+using EventArgss;
 
 namespace DL
 {

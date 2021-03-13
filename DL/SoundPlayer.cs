@@ -45,21 +45,26 @@ namespace DL
         /// <param name="sound">Den specefikke lyd der ønskes afspillet</param>
         public void PlayRecording(Stream sound)
         {
-            SaveFileStream(_filePath, sound);
+            //Todo denne skal fjernes når vi skal kunne loade fra vores database
+            //SaveFileStream(_filePath, sound);
             PlayRecording();
         }
 
 
-       /// <summary>
-       /// Kan gemme et Stream objekt ned i en fil, hvis sti medtages som parameter
-       /// </summary>
-       /// <param name="path">Sti hvor lyden er gemt</param>
-       /// <param name="stream">Lyden der skal gemmes</param>
+        /// <summary>
+        /// Kan gemme et Stream objekt ned i en fil, hvis sti medtages som parameter
+        /// </summary>
+        /// <param name="path">Sti hvor lyden er gemt</param>
+        /// <param name="stream">Lyden der skal gemmes</param>
         private void SaveFileStream(string path, Stream stream)
         {
-            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(fileStream);
-            fileStream.Dispose();
+            using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                stream.CopyTo(fileStream);
+                fileStream.Dispose();
+                //TODO Skal vi lukke vores FileStream Sikkert ned????
+                //fileStream.Close();
+            }
         }
     }
 }

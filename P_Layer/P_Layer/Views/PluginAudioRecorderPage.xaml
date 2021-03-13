@@ -28,7 +28,11 @@
                     HorizontalOptions="FillAndExpand"
                 />
             </StackLayout>
-           
+
+            <Label Text="{Binding AnalyzeText}"
+                   BackgroundColor="Red"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
 
             <Label Text="{Binding RecorderFilePath}"
                    BackgroundColor="LimeGreen"

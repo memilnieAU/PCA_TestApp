@@ -95,6 +95,10 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DTOs\DTOs.csproj">
+      <Project>{26b4fb02-b4af-4b88-8e9a-fbf6da69872a}</Project>
+      <Name>DTOs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\P_Layer\P_Layer.csproj">
       <Project>{438448D7-3040-4BD3-95AA-7D5733BEB51F}</Project>
       <Name>P_Layer</Name>

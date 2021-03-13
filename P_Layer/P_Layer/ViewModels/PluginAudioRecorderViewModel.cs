@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Java.Nio.FileNio;
 using Plugin.AudioRecorder;
-using MvvmHelpers.Commands;
 using Xamarin.Essentials;
 using BL;
+using DTOs;
+using Xamarin.Forms;
+using Command = MvvmHelpers.Commands.Command;
 
 namespace P_Layer.ViewModels
 {
@@ -18,7 +20,8 @@ namespace P_Layer.ViewModels
         private RecorderController ctrl;
         public PluginAudioRecorderViewModel()
         {
-            ctrl = new RecorderController();
+            ctrl = new RecorderController(HandleAnalyzeFinishedEvent);
+
             RecordAudioCommand = new Command(StartRecordTask);
             PlayAudioCommand = new Command(PlayRecordingTask);
         }
@@ -60,6 +63,23 @@ namespace P_Layer.ViewModels
         {
             ctrl.PlayRecording();
             PageText = ctrl.PageText;
+        }
+
+        public Measurement MeasureDTO { get; set; }
+
+         private async void HandleAnalyzeFinishedEvent(object sender,AnalyzeFinishedEventArgs e)
+         {
+             MeasureDTO = e.DTO;
+             AnalyzeText = $"Tiden for måling: {MeasureDTO.StartTime}" +
+                           $"\n Change for patologisk hjertelyd er: {MeasureDTO.ProbabilityProcent}%";
+         }
+
+        private string _analyzeText;
+
+        public string AnalyzeText
+        {
+            get => _analyzeText;
+            set => SetProperty(ref _analyzeText, value);
         }
 
 

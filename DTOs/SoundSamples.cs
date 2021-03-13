@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DL.DTO
+namespace DTOs
 {
     public class SoundSamples
     {

@@ -10,16 +10,6 @@ using Xamarin.Essentials;
 
 namespace P_Layer.ViewModels
 {
-    class TestChildClass
-    {
-        public string ChildText = "This is the child";
-    }
-    class testcalse
-    {
-
-        TestChildClass TestChildClass = new TestChildClass();
-        public string test = "Test String";
-    }
     class FileHelpersViewModel : ViewModelBase
     {
        

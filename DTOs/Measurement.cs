@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DL.DTO
+namespace DTOs
 {
     public class Measurement
     {
