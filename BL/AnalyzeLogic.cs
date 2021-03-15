@@ -7,16 +7,22 @@ namespace BL
     {
         private Measurement analysisObject;
 
-        public void Analyze(Measurement DTO)
+        public Measurement Analyze(Measurement DTO)
         {
             analysisObject = DTO;
-            //Her skal vi analysere dataen
-            //ToDo Vi skal have rette dette så vi ikke er låst til "13%"
-            analysisObject.ProbabilityProcent = 13;
+            analysisObject.ProbabilityProcent = Analyze1();
             OnAnalyzeFinished(new AnalyzeFinishedEventArgs()
             {
                 DTO = analysisObject
             });
+            return analysisObject;
+        }
+
+        //ToDo Vi skal have rette dette så vi ikke er låst til "13%"
+        //Her skal vi analysere dataen
+        private int Analyze1()
+        {
+            return 13;
         }
 
         protected virtual void OnAnalyzeFinished(AnalyzeFinishedEventArgs e)

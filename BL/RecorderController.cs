@@ -35,15 +35,18 @@ namespace BL
         private IRecorderLogic _recorderLogic;
         private ISoundModifyLogic _soundModifyLogic;
         private IAnalyzeLogic _analyse;
+        private ISaveData _dataStoreage;
 
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-            
             _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic();
 
             _analyse = new AnalyzeLogic();
             _analyse.AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
+            
+            
+            _dataStoreage = new FakeStorage();
         }
 
 
@@ -67,11 +70,16 @@ namespace BL
         private void HandleRecordingFinishedEvent(object sender, RecordFinishedEventArgs e)
         {
             MeasureDTO = e.measureDTO;
-            _analyse.Analyze(MeasureDTO);
-            //Her skal analysen startes og sendes til databasen
+            MeasureDTO = _analyse.Analyze(MeasureDTO);
+            _dataStoreage.SaveToStorage(_measureDTO);
         }
+    }
 
-
-        
+    internal class FakeStorage: ISaveData
+    {
+        public void SaveToStorage(Measurement elementToStorage)
+        {
+            System.Diagnostics.Debug.WriteLine("Dine data er nu gemt");
+        }
     }
 }
