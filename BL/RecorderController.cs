@@ -42,18 +42,18 @@ namespace BL
         private IRecorderLogic _recorderLogic;
         private ISoundModifyLogic _soundModifyLogic;
         private IAnalyzeLogic _analyse;
-        private ISaveData _dataStoreage;
+        private ISaveData _dataStorage;
 
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
-            _soundModifyLogic = new SoundModifyLogic();
+            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent, new Recorder());
+            _soundModifyLogic = new SoundModifyLogic(new SoundPlayer());
 
             _analyse = new AnalyzeLogic();
             _analyse.AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
             IsRecording = false;
             
-            _dataStoreage = new FakeStorage(); //ligger som internal class
+            _dataStorage = new FakeStorage(); //ligger som internal class
         }
 
 
@@ -84,7 +84,7 @@ namespace BL
             IsRecording = false;
             MeasureDTO = e.measureDTO;
             MeasureDTO = _analyse.Analyze(MeasureDTO);
-            _dataStoreage.SaveToStorage(MeasureDTO);
+            _dataStorage.SaveToStorage(MeasureDTO);
         }
     }
 

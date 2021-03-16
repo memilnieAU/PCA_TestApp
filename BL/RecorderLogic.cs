@@ -8,10 +8,10 @@ namespace BL
 {
     public class RecorderLogic : IRecorderLogic
     {
-        private IRecorder _recorder;
-        public RecorderLogic(EventHandler<RecordFinishedEventArgs> eventHandler)
+        public IRecorder _recorder;
+        public RecorderLogic(EventHandler<RecordFinishedEventArgs> eventHandler, IRecorder recorder)
         {
-            _recorder = new Recorder();
+            _recorder = recorder;
             _recorder.RecordFinishedEvent += eventHandler;
         }
         public async Task RecordAudio()

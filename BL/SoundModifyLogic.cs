@@ -8,9 +8,9 @@ namespace BL
     {
         private ISoundPlayer _soundPlayer;
 
-        public SoundModifyLogic()
+        public SoundModifyLogic(ISoundPlayer player)
         {
-            _soundPlayer = new SoundPlayer();
+            _soundPlayer = player;
         }
         public void PlayRecording()
         {
