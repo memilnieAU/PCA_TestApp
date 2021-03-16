@@ -30,6 +30,13 @@ namespace BL
             get { return _sampleRate; }
             set { _sampleRate = value; }
         }
+        private bool _isRecording; //Todo Få knapper på UI til at være inaktive når der optages (Fx.)
+
+        public bool IsRecording
+        {
+            get { return _isRecording; }
+            private set { _isRecording = value; }
+        }
 
 
         private IRecorderLogic _recorderLogic;
@@ -44,9 +51,9 @@ namespace BL
 
             _analyse = new AnalyzeLogic();
             _analyse.AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
+            IsRecording = false;
             
-            
-            _dataStoreage = new FakeStorage();
+            _dataStoreage = new FakeStorage(); //ligger som internal class
         }
 
 
@@ -57,7 +64,12 @@ namespace BL
 
         public async Task RecordAudio()
         {
-            await _recorderLogic.RecordAudio();
+            if (IsRecording == false)
+            {
+                await _recorderLogic.RecordAudio();
+                IsRecording = true;
+            }
+
         }
         private Measurement _measureDTO;
 
@@ -69,9 +81,10 @@ namespace BL
 
         private void HandleRecordingFinishedEvent(object sender, RecordFinishedEventArgs e)
         {
+            IsRecording = false;
             MeasureDTO = e.measureDTO;
             MeasureDTO = _analyse.Analyze(MeasureDTO);
-            _dataStoreage.SaveToStorage(_measureDTO);
+            _dataStoreage.SaveToStorage(MeasureDTO);
         }
     }
 

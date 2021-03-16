@@ -8,7 +8,6 @@ namespace BL
     {
         void PlayRecording();
         Task RecordAudio();
-
-
+        bool IsRecording { get; }
     }
 }
