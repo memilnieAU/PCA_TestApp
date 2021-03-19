@@ -14,9 +14,9 @@ namespace BL
             _recorder = recorder;
             _recorder.RecordFinishedEvent += eventHandler;
         }
-        public async Task RecordAudio()
+        public void RecordAudio()
         {
-            await _recorder.RecordAudio();
+            _recorder.RecordAudio();
         }
 
 
