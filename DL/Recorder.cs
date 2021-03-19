@@ -55,7 +55,9 @@ namespace DL
             AudioInputReceived += handleRecordIsFinished;
         }
 
+
         public double AudioTimeout
+
         {
             get { return Convert.ToDouble(TotalAudioTimeout); }
             set { TotalAudioTimeout = TimeSpan.FromSeconds(value); }

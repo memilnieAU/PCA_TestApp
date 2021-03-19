@@ -48,7 +48,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Interface Name="BL.IAnalyzeLogic">
-    <Position X="13.25" Y="2.25" Width="4.25" />
+    <Position X="13.5" Y="1.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IAnalyzeLogic.cs</FileName>
