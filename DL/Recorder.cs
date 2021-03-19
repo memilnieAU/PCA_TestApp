@@ -25,7 +25,7 @@ namespace DL
             recorder.TotalAudioTimeout = TimeSpan.FromSeconds(LengthOfRecording);
             recorder.AudioInputReceived += HandleRecordIsFinished;
         }
-
+        //Her prøver jeg lige at skrive noget som gerne skal med i den endelige efter en pullReq
         private string _recorderFilePath = @"";
 
         public string RecorderFilePath
