@@ -11,9 +11,9 @@ namespace BL
         public IRecorder _recorder;
         public RecorderLogic(EventHandler<RecordFinishedEventArgs> eventHandler, IRecorder recorder)
         {
-            _recorder = recorder;
-            _recorder.RecordFinishedEvent += eventHandler;
+            _recorder = (recorder==null? new Recorder(eventHandler,null,null,null,null):recorder);
         }
+        
         public void RecordAudio()
         {
             _recorder.RecordAudio();

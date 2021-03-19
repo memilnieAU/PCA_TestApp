@@ -46,11 +46,11 @@ namespace BL
 
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent, new Recorder());
-            _soundModifyLogic = new SoundModifyLogic(new SoundPlayer());
+            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent,null);
+            _soundModifyLogic = new SoundModifyLogic(null);
 
-            _analyse = new AnalyzeLogic();
-            _analyse.AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
+            _analyse = new AnalyzeLogic(handleAnalyzeFinishedEvent);
+
             IsRecording = false;
             
             _dataStorage = new FakeStorage(); //ligger som internal class

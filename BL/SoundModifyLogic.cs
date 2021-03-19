@@ -8,10 +8,11 @@ namespace BL
     {
         private ISoundPlayer _soundPlayer;
 
-        public SoundModifyLogic(ISoundPlayer player)
+        public SoundModifyLogic(ISoundPlayer soundPlayer)
         {
-            _soundPlayer = player;
+            _soundPlayer = (soundPlayer == null ? new SoundPlayer() : soundPlayer);
         }
+        
         public void PlayRecording()
         {
             _soundPlayer.PlayRecording();

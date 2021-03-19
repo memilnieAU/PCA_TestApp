@@ -214,28 +214,20 @@ namespace DL
         }
 
         #endregion
-
-        public Recorder(IAudioRecorderService audioRecorderService, ISaveToMobile saveToMobile,
+        
+        public Recorder(EventHandler<RecordFinishedEventArgs> recordFinishedEventHandler, IAudioRecorderService audioRecorderService, ISaveToMobile saveToMobile,
             ITimeProvider timeProvider, IFileAccess fileAccess)
         {
-            _recorder = audioRecorderService;
-            _localStorage = saveToMobile;
-            _timeProvider = timeProvider;
-            _fileAccess = fileAccess;
+            RecordFinishedEvent += recordFinishedEventHandler;
 
-        }
-
-        public Recorder()
-        {
-            _recorder = new MyAudioRecorderService(HandleRecordIsFinished);
-            _localStorage = new SaveToMobile();
-            _timeProvider = new RealTimeProvicer();
-            _fileAccess = new MyFileSystem();
-
+            _recorder = (audioRecorderService == null ? new MyAudioRecorderService(HandleRecorderIsFinished) : audioRecorderService);
+            _localStorage = (saveToMobile == null ? new SaveToMobile() : saveToMobile);
+            _timeProvider = (timeProvider == null ? new RealTimeProvicer() : timeProvider);
+            _fileAccess = (fileAccess == null ? new MyFileSystem() : fileAccess);
         }
 
 
-        private void HandleRecordIsFinished(object sender, string e)
+        private void HandleRecorderIsFinished(object sender, string e)
         {
             _timeProvider.StopTimer(true, true);
 

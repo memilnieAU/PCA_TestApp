@@ -21,7 +21,7 @@ namespace BL.TESTS.UNIT
         public void Setup()
         {
             sub = Substitute.For<IRecorder>();
-            UUT = new RecorderLogic(eventHandler,sub);
+            UUT = new RecorderLogic(eventHandler, sub);
         }
 
         #region RecordAudioTests: ZOMxIxS (ZOMBIES)

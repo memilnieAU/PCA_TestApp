@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using DTOs;
+using EventArgss;
 using NSubstitute;
 using NUnit.Framework;
 using Xamarin.Essentials;
@@ -13,6 +14,7 @@ namespace DL.TESTS.UNIT
     public class Recorder_Test_Unit
     {
         private Recorder UUT;
+        private EventHandler<RecordFinishedEventArgs> RecordFinishedEventHandler;
         private IAudioRecorderService sub_Recoder;
         private ISaveToMobile sub_SaveToMobile;
         private ITimeProvider sub_TimeProvider;
@@ -24,7 +26,7 @@ namespace DL.TESTS.UNIT
             sub_TimeProvider = Substitute.For<ITimeProvider>();
             sub_SaveToMobile = Substitute.For<ISaveToMobile>();
             sub_FileAccess = Substitute.For<IFileAccess>();
-            UUT = new Recorder(sub_Recoder, sub_SaveToMobile, sub_TimeProvider,sub_FileAccess);
+            UUT = new Recorder(RecordFinishedEventHandler, sub_Recoder, sub_SaveToMobile, sub_TimeProvider, sub_FileAccess);
         }
 
         //Disse metoder er testet efter ZOMBIE-princip 

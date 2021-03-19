@@ -5,7 +5,21 @@ namespace BL
 {
     public class AnalyzeLogic : IAnalyzeLogic
     {
+
+        #region Event
+        public event EventHandler<AnalyzeFinishedEventArgs> AnalyzeFinishedEvent;
+        protected virtual void OnAnalyzeFinished(AnalyzeFinishedEventArgs e)
+        {
+            AnalyzeFinishedEvent?.Invoke(this, e);
+        }
+        #endregion
+
         private Measurement analysisObject;
+
+        public AnalyzeLogic(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
+        {
+            AnalyzeFinishedEvent += handleAnalyzeFinishedEvent;
+        }
 
         public Measurement Analyze(Measurement DTO)
         {
@@ -25,12 +39,7 @@ namespace BL
             return 13;
         }
 
-        protected virtual void OnAnalyzeFinished(AnalyzeFinishedEventArgs e)
-        {
-            AnalyzeFinishedEvent?.Invoke(this, e);
-        }
 
-        public event EventHandler<AnalyzeFinishedEventArgs> AnalyzeFinishedEvent;
 
     }
 }
