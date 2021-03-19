@@ -3,9 +3,14 @@
   <Class Name="DL.Recorder" BaseTypeListCollapsed="true">
     <Position X="7.75" Y="4.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>QAAAAAAAAABAQAAAAAkCAAEAAAAAAAgACAgARAgAAAA=</HashCode>
+      <HashCode>AAAEAAAAAABAQAQAAAlAAAAAAAAAAAgAAAAAAggAAAA=</HashCode>
       <FileName>Recorder.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_localStorage" />
+      <Field Name="_recorder" />
+      <Field Name="_timeProvider" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DL.SoundPlayer" BaseTypeListCollapsed="true">
@@ -16,18 +21,70 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="DL.MyAudioRecorderService" BaseTypeListCollapsed="true">
+    <Position X="14" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DL.SaveToMobile" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DL.RealTimeProvicer" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAIAAAEAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="DL.IRecorder">
-    <Position X="1" Y="3" Width="4.25" />
+    <Position X="0.5" Y="1.75" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
       <FileName>IRecorder.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DL.ISoundPlayer">
-    <Position X="2.75" Y="5.75" Width="2.75" />
+    <Position X="0.5" Y="3.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ISoundPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DL.IAudioRecorderService">
+    <Position X="6" Y="9" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAEAAAAAAAAEgAAABEAAAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DL.ISaveToMobile">
+    <Position X="4" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DL.ITimeProvider">
+    <Position X="10.25" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DL.IStopWatch">
+    <Position X="10" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAAAAAAAIAIAAAAAAAAIAAAAgAAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

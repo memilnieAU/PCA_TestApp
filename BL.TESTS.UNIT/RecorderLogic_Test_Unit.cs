@@ -27,32 +27,32 @@ namespace BL.TESTS.UNIT
         #region RecordAudioTests: ZOMxIxS (ZOMBIES)
 
         [Test]
-        public async Task RecordAudio_DontCallRecordAudioInSubUponConstruction_IsCalledZeroTimes()
+        public void RecordAudio_DontCallRecordAudioInSubUponConstruction_IsCalledZeroTimes()
         {
             //ACT
             sub.DidNotReceive().RecordAudio();
         }
         [Test]
-        public async Task RecordAudio_CallRecordAudioMethodInSub_IsCalledOneTime()
+        public void RecordAudio_CallRecordAudioMethodInSub_IsCalledOneTime()
         {
             //Arrange
             DateTime starttime = new DateTime(2008, 5, 1, 12, 0, 0);
 
             //ACT
-            sub.RecordAudio().Returns(new Measurement(starttime));
+            sub.RecordAudio();
             UUT.RecordAudio();
 
             sub.Received(1).RecordAudio();
         }
 
         [Test]
-        public async Task RecordAudio_CallRecordAudioMethodInSub_IsCalledTwoTimes()
+        public void RecordAudio_CallRecordAudioMethodInSub_IsCalledTwoTimes()
         {
             //Arrange
             DateTime starttime = new DateTime(2008, 5, 1, 12, 0, 0);
 
             //ACT
-            sub.RecordAudio().Returns(new Measurement(starttime));
+            sub.RecordAudio();
             UUT.RecordAudio();
             UUT.RecordAudio();
 

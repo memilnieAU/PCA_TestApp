@@ -9,23 +9,182 @@ using Xamarin.Essentials;
 
 namespace DL
 {
+    /// <summary>
+    /// Denne gør at vi kan afkoble AudioRecorderService under test
+    /// </summary>
+    public interface IAudioRecorderService
+    {
+        /// <summary>
+        /// Retunerer true, hvis optagelsen er i gang
+        /// </summary>
+        bool IsRecording { get; }
+        /// <summary>
+        /// Den filsti som der gemmes en stream på, kan ændres
+        /// </summary>
+        string FilePath { get; set; }
+        /// <summary>
+        /// Get AudioRecorderService.TotalAudioTimeout som double
+        /// Set AudioRecorderService.TotalAudioTimeout som double, mothoden konverter selv til TimeSpan
+        /// </summary>
+        double AudioTimeout { get; set; }
+        event EventHandler<string> AudioInputReceived;
+        /// <summary>
+        /// Starter en async optagelse
+        /// </summary>
+        /// <returns></returns>
+        Task<Task<string>> StartRecording();
+        Stream GetAudioFileStream();
+    }
+
+    /// <summary>
+    /// Denne klasse arver fra AudioRecorderService og implamentere IAudioRecorderService
+    /// Det gør at man kan teste på dette datalag
+    /// </summary>
+    public class MyAudioRecorderService : AudioRecorderService, IAudioRecorderService
+    {
+        /// <summary>
+        /// Sætter som default optagelsen til at stoppe efter 10 sek, og uden at den stopper OnSilence
+        /// </summary>
+        /// <param name="handleRecordIsFinished">Notificeres når optagelsen er færdig</param>
+        public MyAudioRecorderService(EventHandler<string> handleRecordIsFinished)
+        {
+            StopRecordingOnSilence = false;
+            StopRecordingAfterTimeout = true;
+            AudioTimeout = 10;
+
+            AudioInputReceived += handleRecordIsFinished;
+        }
+
+
+        public double AudioTimeout
+
+        {
+            get { return Convert.ToDouble(TotalAudioTimeout); }
+            set { TotalAudioTimeout = TimeSpan.FromSeconds(value); }
+        }
+    }
+
+
+    /// <summary>
+    /// Bruges til at afkoble systemet så det kan testes
+    /// </summary>
+    public interface ISaveToMobile
+    {
+        /// <summary>
+        /// Kan gemme en stream
+        /// </summary>
+        /// <param name="SaveToFilePath">Stien på der der ønskes at gemmes</param>
+        /// <param name="ElementToSave">Det stream objekt der ønskes at gemmes</param>
+        void Save(string SaveToFilePath, Stream ElementToSave);
+    }
+
+    public class SaveToMobile : ISaveToMobile
+    {
+        public void Save(string saveToFilePath, Stream elementToSave)
+        {
+            var fileStream = new FileStream(saveToFilePath, FileMode.Create, FileAccess.Write);
+            elementToSave.CopyTo(fileStream);
+            fileStream.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Bruges til at få DateTime.Now og som StopUr
+    /// Men dette gør recorder testbar
+    /// </summary>
+    public interface ITimeProvider : IStopWatch
+    {
+        DateTime GetDateTime();
+    }
+
+    /// <summary>
+    /// Bruges til stopur
+    /// Gør at recorder er testbar
+    /// </summary>
+    public interface IStopWatch
+    {
+
+        void Start();
+        void Stop();
+        void Reset();
+
+        /// <summary>
+        /// Printer total elapsed time measured by the current instance i Debug.WriteLine
+        /// </summary>
+        void PrintElapsed();
+        /// <summary>
+        /// Denne metode starter uret på ny og udskriver at den er started i Debug.WriteLine
+        /// </summary>
+        void StartTimer();
+        /// <summary>
+        /// Dette er en kombi, da den både kan stoppe, Printe i Debug.WriteLine og Resette stopuret
+        /// </summary>
+        /// <param name="print">True, hvis det skal printes til Debug.WriteLine</param>
+        /// <param name="reset">True, hvis uret ska resettes til 0</param>
+        void StopTimer(bool print, bool reset);
+    }
+
+    public class RealTimeProvicer : Stopwatch, ITimeProvider
+    {
+        public DateTime GetDateTime()
+        {
+            return DateTime.Now;
+        }
+
+        public void PrintElapsed()
+        {
+            TimeSpan ts = Elapsed;
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Debug.WriteLine("RunTime " + elapsedTime);
+        }
+
+        public void StopTimer(bool print, bool reset)
+        {
+            Stop();
+            if (print)
+            {
+                PrintElapsed();
+            }
+            if (reset)
+            {
+                Reset();
+
+            }
+        }
+
+        public void StartTimer()
+        {
+            Start();
+            Debug.WriteLine("Måling er startet");
+        }
+    }
+
     public class Recorder : IRecorder
     {
-        private AudioRecorderService recorder;
-       
-        public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
-        private Measurement measureDTO;
+        #region Dependencies
 
-        public Recorder()
+        private IAudioRecorderService _recorder;
+        private ISaveToMobile _localStorage;
+        private ITimeProvider _timeProvider;
+
+        #endregion
+        #region Event
+
+        public event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
+        protected virtual void OnRecordingFinished(RecordFinishedEventArgs e)
         {
-            recorder = new AudioRecorderService();
-
-            recorder.StopRecordingOnSilence = false;
-            recorder.StopRecordingAfterTimeout = true;
-            recorder.TotalAudioTimeout = TimeSpan.FromSeconds(LengthOfRecording);
-            recorder.AudioInputReceived += HandleRecordIsFinished;
+            RecordFinishedEvent?.Invoke(this, e);
         }
-        //Her prøver jeg lige at skrive noget som gerne skal med i den endelige efter en pullReq
+
+        #endregion
+        #region Props
+
+
+        public string _filePathToLocalStorage;
+
         private string _recorderFilePath = @"";
 
         public string RecorderFilePath
@@ -33,95 +192,45 @@ namespace DL
             get { return _recorderFilePath; }
             set { _recorderFilePath = value; }
         }
-        private double _lengthOfRecording = 10;
 
-        public double LengthOfRecording
+
+        #endregion
+
+        public Recorder()
         {
-            get { return _lengthOfRecording; }
-            set { _lengthOfRecording = value; }
+            _filePathToLocalStorage = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
+            _recorder = new MyAudioRecorderService(HandleRecordIsFinished);
+            RecorderFilePath = _recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
+
+            _localStorage = new SaveToMobile();
+            _timeProvider = new RealTimeProvicer();
         }
-
-
-        private void SaveFileStream(string path, Stream stream)
-        {
-            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(fileStream);
-            fileStream.Dispose();
-        }
-
-
-        Stopwatch stopWatch = new Stopwatch();
-
 
         private void HandleRecordIsFinished(object sender, string e)
         {
-            stopWatch.Stop();
-            using (var stream = recorder.GetAudioFileStream())
-            {
-                measureDTO.SoundStream = stream;
-                SaveFileStream(_filePath, stream); //Appdatadirectory sti
-            }
-            Debug.WriteLine("Vi har modtaget en event som vi lige har ageret på" + DateTime.Now.ToString());
+            _timeProvider.StopTimer(true, true);
 
-            
-            
+            Measurement tempMeasureDTO = new Measurement(_timeProvider.GetDateTime());
+
+            using (var stream = _recorder.GetAudioFileStream())
+            {
+                tempMeasureDTO.SoundStream = stream;
+                _localStorage.Save(_filePathToLocalStorage, stream);
+            }
+
             OnRecordingFinished(new RecordFinishedEventArgs
             {
-                measureDTO = this.measureDTO
+                measureDTO = tempMeasureDTO
             });
-            
-            #region Stopwatch
-
-            TimeSpan ts = stopWatch.Elapsed;
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Debug.WriteLine("RunTime " + elapsedTime);
-            stopWatch = new Stopwatch();
-            
-
-            #endregion
-        }
-
-        protected virtual void OnRecordingFinished(RecordFinishedEventArgs e)
-        {
-            RecordFinishedEvent?.Invoke(this, e);
-        }
-
-        public event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
-
-
-        public async Task<Measurement> RecordAudio()
-        {
-
-            if (!recorder.IsRecording)
-            {
-                measureDTO = new Measurement(DateTime.Now);
-                await RecordTask();
-                RecorderFilePath = recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
-                return measureDTO;
-            }
-            else
-            {
-                measureDTO = new Measurement();
-                return measureDTO;
-            }
 
         }
-        private async Task RecordTask()
+
+        public void RecordAudio()
         {
-            try
+            if (!_recorder.IsRecording)
             {
-                stopWatch.Start();
-                System.Diagnostics.Debug.WriteLine("Nu burde vi starte med at optage" + DateTime.Now.ToString());
-                await recorder.StartRecording();
-                System.Diagnostics.Debug.WriteLine("Nu burde vi være færdig med at optage" + DateTime.Now.ToString());
-            }
-            catch (Exception e)
-            {
-                //Console.WriteLine(e);
-                throw;
+                _timeProvider.StartTimer();
+                _recorder.StartRecording();
             }
         }
     }

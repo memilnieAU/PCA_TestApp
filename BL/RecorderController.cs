@@ -62,11 +62,11 @@ namespace BL
             _soundModifyLogic.PlayRecording(MeasureDTO.SoundStream);
         }
 
-        public async Task RecordAudio()
+        public void RecordAudio()
         {
             if (IsRecording == false)
             {
-                await _recorderLogic.RecordAudio();
+                _recorderLogic.RecordAudio();
                 IsRecording = true;
             }
 

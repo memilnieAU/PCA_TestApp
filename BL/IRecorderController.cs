@@ -7,7 +7,7 @@ namespace BL
     public interface IRecorderController
     {
         void PlayRecording();
-        Task RecordAudio();
+        void RecordAudio();
         bool IsRecording { get; }
         string PageText { get; set; }
     }
