@@ -9,42 +9,73 @@ using Xamarin.Essentials;
 
 namespace DL
 {
+    /// <summary>
+    /// Denne gør at vi kan afkoble AudioRecorderService under test
+    /// </summary>
     public interface IAudioRecorderService
     {
+        /// <summary>
+        /// Retunerer true, hvis optagelsen er i gang
+        /// </summary>
         bool IsRecording { get; }
+        /// <summary>
+        /// Den filsti som der gemmes en stream på, kan ændres
+        /// </summary>
         string FilePath { get; set; }
+        /// <summary>
+        /// Get AudioRecorderService.TotalAudioTimeout som double
+        /// Set AudioRecorderService.TotalAudioTimeout som double, mothoden konverter selv til TimeSpan
+        /// </summary>
         double AudioTimeout { get; set; }
         event EventHandler<string> AudioInputReceived;
+        /// <summary>
+        /// Starter en async optagelse
+        /// </summary>
+        /// <returns></returns>
         Task<Task<string>> StartRecording();
         Stream GetAudioFileStream();
     }
+
+    /// <summary>
+    /// Denne klasse arver fra AudioRecorderService og implamentere IAudioRecorderService
+    /// Det gør at man kan teste på dette datalag
+    /// </summary>
     public class MyAudioRecorderService : AudioRecorderService, IAudioRecorderService
     {
-        public event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
-
+        /// <summary>
+        /// Sætter som default optagelsen til at stoppe efter 10 sek, og uden at den stopper OnSilence
+        /// </summary>
+        /// <param name="handleRecordIsFinished">Notificeres når optagelsen er færdig</param>
         public MyAudioRecorderService(EventHandler<string> handleRecordIsFinished)
         {
             StopRecordingOnSilence = false;
             StopRecordingAfterTimeout = true;
-            TotalAudioTimeout = TimeSpan.FromSeconds(10);
+            AudioTimeout = 10;
 
             AudioInputReceived += handleRecordIsFinished;
         }
-
 
         public double AudioTimeout
         {
             get { return Convert.ToDouble(TotalAudioTimeout); }
             set { TotalAudioTimeout = TimeSpan.FromSeconds(value); }
         }
-
-
     }
 
+
+    /// <summary>
+    /// Bruges til at afkoble systemet så det kan testes
+    /// </summary>
     public interface ISaveToMobile
     {
+        /// <summary>
+        /// Kan gemme en stream
+        /// </summary>
+        /// <param name="SaveToFilePath">Stien på der der ønskes at gemmes</param>
+        /// <param name="ElementToSave">Det stream objekt der ønskes at gemmes</param>
         void Save(string SaveToFilePath, Stream ElementToSave);
     }
+
     public class SaveToMobile : ISaveToMobile
     {
         public void Save(string saveToFilePath, Stream elementToSave)
@@ -55,16 +86,42 @@ namespace DL
         }
     }
 
-    public interface ITimeProvider
+    /// <summary>
+    /// Bruges til at få DateTime.Now og som StopUr
+    /// Men dette gør recorder testbar
+    /// </summary>
+    public interface ITimeProvider : IStopWatch
     {
         DateTime GetDateTime();
-        void Stop();
-        void Start();
-        void Reset();
-        void PrintElapsed();
-        void StopTimer(bool print, bool reset);
-        void StartTimer();
     }
+
+    /// <summary>
+    /// Bruges til stopur
+    /// Gør at recorder er testbar
+    /// </summary>
+    public interface IStopWatch
+    {
+
+        void Start();
+        void Stop();
+        void Reset();
+
+        /// <summary>
+        /// Printer total elapsed time measured by the current instance i Debug.WriteLine
+        /// </summary>
+        void PrintElapsed();
+        /// <summary>
+        /// Denne metode starter uret på ny og udskriver at den er started i Debug.WriteLine
+        /// </summary>
+        void StartTimer();
+        /// <summary>
+        /// Dette er en kombi, da den både kan stoppe, Printe i Debug.WriteLine og Resette stopuret
+        /// </summary>
+        /// <param name="print">True, hvis det skal printes til Debug.WriteLine</param>
+        /// <param name="reset">True, hvis uret ska resettes til 0</param>
+        void StopTimer(bool print, bool reset);
+    }
+
     public class RealTimeProvicer : Stopwatch, ITimeProvider
     {
         public DateTime GetDateTime()
@@ -89,7 +146,6 @@ namespace DL
             {
                 PrintElapsed();
             }
-
             if (reset)
             {
                 Reset();
@@ -106,10 +162,13 @@ namespace DL
 
     public class Recorder : IRecorder
     {
+        #region Dependencies
+
         private IAudioRecorderService _recorder;
         private ISaveToMobile _localStorage;
         private ITimeProvider _timeProvider;
 
+        #endregion
         #region Event
 
         public event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
@@ -122,8 +181,7 @@ namespace DL
         #region Props
 
 
-        public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
-        Stopwatch stopWatch = new Stopwatch();
+        public string _filePathToLocalStorage;
 
         private string _recorderFilePath = @"";
 
@@ -138,16 +196,16 @@ namespace DL
 
         public Recorder()
         {
+            _filePathToLocalStorage = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
             _recorder = new MyAudioRecorderService(HandleRecordIsFinished);
+            RecorderFilePath = _recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
 
             _localStorage = new SaveToMobile();
             _timeProvider = new RealTimeProvicer();
         }
 
-
         private void HandleRecordIsFinished(object sender, string e)
         {
-
             _timeProvider.StopTimer(true, true);
 
             Measurement tempMeasureDTO = new Measurement(_timeProvider.GetDateTime());
@@ -155,7 +213,7 @@ namespace DL
             using (var stream = _recorder.GetAudioFileStream())
             {
                 tempMeasureDTO.SoundStream = stream;
-                _localStorage.Save(_filePath, stream);
+                _localStorage.Save(_filePathToLocalStorage, stream);
             }
 
             OnRecordingFinished(new RecordFinishedEventArgs
@@ -171,8 +229,6 @@ namespace DL
             {
                 _timeProvider.StartTimer();
                 _recorder.StartRecording();
-                RecorderFilePath = _recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
-
             }
         }
     }
