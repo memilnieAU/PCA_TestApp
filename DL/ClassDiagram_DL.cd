@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="DL.Recorder" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="4.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAABAQAAAAAkCAAEAAAAAAAgACAgARAgAAAA=</HashCode>
+      <FileName>Recorder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DL.SoundPlayer" BaseTypeListCollapsed="true">
+    <Position X="8" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACIAAAAAAAAAABAAAAQAAAAAA=</HashCode>
+      <FileName>SoundPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="DL.IRecorder">
+    <Position X="1" Y="3" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>IRecorder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DL.ISoundPlayer">
+    <Position X="2.75" Y="5.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISoundPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

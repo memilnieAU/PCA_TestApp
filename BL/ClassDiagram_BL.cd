@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BL.RecorderController" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAgggAQAAAQAKAEAIgIAAAABAAAAAACABAAAAAA=</HashCode>
+      <FileName>RecorderController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BL.FakeStorage" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RecorderController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BL.RecorderLogic" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RecorderLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BL.SoundModifyLogic" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>SoundModifyLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BL.AnalyzeFinishedEventArgs">
+    <Position X="3.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AnalyzeFinishedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.AnalyzeLogic" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="1.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAIAAAAIAAAAAAAAACAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>AnalyzeLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="BL.IAnalyzeLogic">
+    <Position X="13.25" Y="2.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IAnalyzeLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BL.IRecorderController">
+    <Position X="0.5" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAACAEAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRecorderController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BL.IRecorderLogic">
+    <Position X="13.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IRecorderLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BL.ISaveData">
+    <Position X="0.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISaveData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BL.ISoundModifyLogic">
+    <Position X="8.5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISoundModifyLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="P_Layer.ViewModels.PluginAudioRecorderViewModel">
+    <Position X="7.75" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAAAAARAIIAAIAAAgAAACAIDAAgAAAAgAACAAAA=</HashCode>
+      <FileName>ViewModels\PluginAudioRecorderViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="P_Layer.Views.PluginAudioRecorderPage">
+    <Position X="8" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\PluginAudioRecorderPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -17,7 +17,7 @@ namespace P_Layer.ViewModels
 {
     public class PluginAudioRecorderViewModel : ViewModelBase
     {
-        private RecorderController ctrl;
+        private IRecorderController ctrl;
         public PluginAudioRecorderViewModel()
         {
             ctrl = new RecorderController(HandleAnalyzeFinishedEvent);
@@ -67,7 +67,7 @@ namespace P_Layer.ViewModels
 
         public Measurement MeasureDTO { get; set; }
 
-         private async void HandleAnalyzeFinishedEvent(object sender,AnalyzeFinishedEventArgs e)
+         private void HandleAnalyzeFinishedEvent(object sender,AnalyzeFinishedEventArgs e)
          {
              MeasureDTO = e.DTO;
              AnalyzeText = $"Tiden for måling: {MeasureDTO.StartTime}" +
