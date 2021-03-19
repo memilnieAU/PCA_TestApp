@@ -20,8 +20,6 @@ namespace P_Layer.ViewModels
     {
         private AudioRecorderService recorder;
         AudioPlayer player;
-        private MediaPlayer mediaPlayer;
-        private MediaRecorder mediaRecorder;
         public HomePageViewModel()
         {
             Title = "Home Page new";
