@@ -35,11 +35,8 @@ namespace BL.TESTS.UNIT
         [Test]
         public void RecordAudio_CallRecordAudioMethodInSub_IsCalledOneTime()
         {
-            //Arrange
-            DateTime starttime = new DateTime(2008, 5, 1, 12, 0, 0);
-
+            
             //ACT
-            sub.RecordAudio();
             UUT.RecordAudio();
 
             sub.Received(1).RecordAudio();
@@ -48,11 +45,8 @@ namespace BL.TESTS.UNIT
         [Test]
         public void RecordAudio_CallRecordAudioMethodInSub_IsCalledTwoTimes()
         {
-            //Arrange
-            DateTime starttime = new DateTime(2008, 5, 1, 12, 0, 0);
-
+           
             //ACT
-            sub.RecordAudio();
             UUT.RecordAudio();
             UUT.RecordAudio();
 

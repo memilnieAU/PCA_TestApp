@@ -162,14 +162,27 @@ namespace DL
         }
     }
 
+    public interface IFileAccess
+    {
+        string CombinePath(string FileName);
+    }
+
+    public class MyFileSystem : IFileAccess
+    {
+        
+        public string CombinePath(string fileName)
+        {
+           return Path.Combine(FileSystem.AppDataDirectory, fileName);
+        }
+    }
     public class Recorder : IRecorder
     {
         #region Dependencies
 
-        private IAudioRecorderService _recorder;
-        private ISaveToMobile _localStorage;
-        private ITimeProvider _timeProvider;
-
+        public IAudioRecorderService _recorder;
+        public ISaveToMobile _localStorage;
+        public ITimeProvider _timeProvider;
+        public IFileAccess _fileAccess;
         #endregion
         #region Event
 
@@ -182,29 +195,45 @@ namespace DL
         #endregion
         #region Props
 
+        private string _filePathToLocalStorage;
 
-        public string _filePathToLocalStorage;
-
-        private string _recorderFilePath = @"";
+        //TODO Til MM Fra MEN => Vi bruger ikke denne og kan ikke lige huske hvorfor?
+        private string _recorderFilePath;
 
         public string RecorderFilePath
         {
             get { return _recorderFilePath; }
-            set { _recorderFilePath = value; }
+            set
+            {
+                if (_recorderFilePath == null)
+                {
+                    _recorderFilePath = _recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
+                }
+                _recorderFilePath = value;
+            }
         }
-
 
         #endregion
 
+        public Recorder(IAudioRecorderService audioRecorderService, ISaveToMobile saveToMobile,
+            ITimeProvider timeProvider, IFileAccess fileAccess)
+        {
+            _recorder = audioRecorderService;
+            _localStorage = saveToMobile;
+            _timeProvider = timeProvider;
+            _fileAccess = fileAccess;
+
+        }
+
         public Recorder()
         {
-            _filePathToLocalStorage = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
             _recorder = new MyAudioRecorderService(HandleRecordIsFinished);
-            RecorderFilePath = _recorder.FilePath; //Midlertidige cachefil. Henter filstien til lydfil og gemmer i vores property til øvrige metoder.
-
             _localStorage = new SaveToMobile();
             _timeProvider = new RealTimeProvicer();
+            _fileAccess = new MyFileSystem();
+
         }
+
 
         private void HandleRecordIsFinished(object sender, string e)
         {
@@ -215,7 +244,7 @@ namespace DL
             using (var stream = _recorder.GetAudioFileStream())
             {
                 tempMeasureDTO.SoundStream = stream;
-                _localStorage.Save(_filePathToLocalStorage, stream);
+                _localStorage.Save(_fileAccess.CombinePath("Recording.wav"), stream);
             }
 
             OnRecordingFinished(new RecordFinishedEventArgs

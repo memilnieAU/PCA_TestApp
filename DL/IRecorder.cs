@@ -12,5 +12,6 @@ namespace DL
     {
         event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
         void RecordAudio();
+
     }
 }
