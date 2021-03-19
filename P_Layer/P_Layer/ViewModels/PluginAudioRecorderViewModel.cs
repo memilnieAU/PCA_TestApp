@@ -54,10 +54,10 @@ namespace P_Layer.ViewModels
         public ICommand RecordAudioCommand { get; }
         public ICommand PlayAudioCommand { get; }
 
-        private async void StartRecordTask()
+        private void StartRecordTask()
         {
             PageText = ctrl.PageText;
-            await ctrl.RecordAudio();
+            ctrl.RecordAudio();
         }
         private void PlayRecordingTask()
         {

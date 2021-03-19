@@ -11,6 +11,6 @@ namespace DL
     public interface IRecorder
     {
         event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
-        Task<Measurement> RecordAudio();
+        void RecordAudio();
     }
 }
