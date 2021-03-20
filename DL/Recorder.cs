@@ -40,13 +40,13 @@ namespace DL
     /// Denne klasse arver fra AudioRecorderService og implamentere IAudioRecorderService
     /// Det gør at man kan teste på dette datalag
     /// </summary>
-    public class MyAudioRecorderService : AudioRecorderService, IAudioRecorderService
+    public class ExtendedAudioRecorderService : AudioRecorderService, IAudioRecorderService
     {
         /// <summary>
         /// Sætter som default optagelsen til at stoppe efter 10 sek, og uden at den stopper OnSilence
         /// </summary>
         /// <param name="handleRecordIsFinished">Notificeres når optagelsen er færdig</param>
-        public MyAudioRecorderService(EventHandler<string> handleRecordIsFinished)
+        public ExtendedAudioRecorderService(EventHandler<string> handleRecordIsFinished)
         {
             StopRecordingOnSilence = false;
             StopRecordingAfterTimeout = true;
@@ -220,10 +220,21 @@ namespace DL
         {
             RecordFinishedEvent += recordFinishedEventHandler;
 
-            _recorder = (audioRecorderService == null ? new MyAudioRecorderService(HandleRecorderIsFinished) : audioRecorderService);
-            _localStorage = (saveToMobile == null ? new SaveToMobile() : saveToMobile);
-            _timeProvider = (timeProvider == null ? new RealTimeProvicer() : timeProvider);
-            _fileAccess = (fileAccess == null ? new MyFileSystem() : fileAccess);
+            _recorder = audioRecorderService ?? new ExtendedAudioRecorderService(HandleRecorderIsFinished);
+            _localStorage = saveToMobile ?? new SaveToMobile();
+            _timeProvider = timeProvider ?? new RealTimeProvicer();
+            _fileAccess = fileAccess ?? new MyFileSystem();
+        }
+
+        public Recorder(EventHandler<RecordFinishedEventArgs> recordFinishedEventHandler)
+        {
+            RecordFinishedEvent += recordFinishedEventHandler;
+
+            _recorder = new ExtendedAudioRecorderService(HandleRecorderIsFinished);
+            _localStorage = new SaveToMobile();
+            _timeProvider = new RealTimeProvicer();
+            _fileAccess = new MyFileSystem();
+
         }
 
 

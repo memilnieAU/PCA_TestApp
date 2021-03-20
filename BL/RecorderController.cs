@@ -46,7 +46,7 @@ namespace BL
 
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent,null);
+            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic(null);
 
             _analyse = new AnalyzeLogic(handleAnalyzeFinishedEvent);

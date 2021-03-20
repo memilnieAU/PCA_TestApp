@@ -3,14 +3,9 @@
   <Class Name="DL.Recorder" BaseTypeListCollapsed="true">
     <Position X="7.75" Y="4.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAABAQAQAAAlAAAAAAAAAAAgAAAAAAggAAAA=</HashCode>
+      <HashCode>ABAEAAAAAABAQAQAAAFAAAAAAACAAAgAAAAAAggAAAA=</HashCode>
       <FileName>Recorder.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_localStorage" />
-      <Field Name="_recorder" />
-      <Field Name="_timeProvider" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DL.SoundPlayer" BaseTypeListCollapsed="true">
@@ -21,8 +16,8 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DL.MyAudioRecorderService" BaseTypeListCollapsed="true">
-    <Position X="14" Y="2.25" Width="2.25" />
+  <Class Name="DL.ExtendedAudioRecorderService" BaseTypeListCollapsed="true">
+    <Position X="14" Y="2.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Recorder.cs</FileName>
@@ -81,7 +76,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="DL.IStopWatch">
-    <Position X="10" Y="10.75" Width="1.75" />
+    <Position X="10.25" Y="10.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAABAAAAAAAAIAIAAAAAAAAIAAAAgAAAAA=</HashCode>
       <FileName>Recorder.cs</FileName>
