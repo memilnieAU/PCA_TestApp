@@ -16,7 +16,6 @@ namespace DL.TESTS.UNIT
         private Recorder UUT;
         private EventHandler<RecordFinishedEventArgs> RecordFinishedEventHandler;
         private IAudioRecorderService sub_Recoder;
-        private ISaveToMobile sub_SaveToMobile;
         private ITimeProvider sub_TimeProvider;
         private IFileAccess sub_FileAccess;
         [SetUp]
@@ -24,9 +23,8 @@ namespace DL.TESTS.UNIT
         {
             sub_Recoder = Substitute.For<IAudioRecorderService>();
             sub_TimeProvider = Substitute.For<ITimeProvider>();
-            sub_SaveToMobile = Substitute.For<ISaveToMobile>();
             sub_FileAccess = Substitute.For<IFileAccess>();
-            UUT = new Recorder(RecordFinishedEventHandler, sub_Recoder, sub_SaveToMobile, sub_TimeProvider, sub_FileAccess);
+            UUT = new Recorder(RecordFinishedEventHandler, sub_Recoder, sub_TimeProvider, sub_FileAccess);
         }
 
         //Disse metoder er testet efter ZOMBIE-princip 

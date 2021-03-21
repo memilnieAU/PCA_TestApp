@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using DTOs;
 using EventArgss;
@@ -9,7 +10,6 @@ namespace DL
     {
         #region Dependencies
         public IAudioRecorderService _recorder;
-        public ISaveToMobile _localStorage;
         public ITimeProvider _timeProvider;
         public IFileAccess _fileAccess;
         #endregion
@@ -23,13 +23,12 @@ namespace DL
 
         #endregion
 
-        public Recorder(EventHandler<RecordFinishedEventArgs> recordFinishedEventHandler, IAudioRecorderService audioRecorderService, ISaveToMobile saveToMobile,
+        public Recorder(EventHandler<RecordFinishedEventArgs> recordFinishedEventHandler, IAudioRecorderService audioRecorderService,
             ITimeProvider timeProvider, IFileAccess fileAccess)
         {
             RecordFinishedEvent += recordFinishedEventHandler;
 
             _recorder = audioRecorderService ?? new ExtendedAudioRecorderService(HandleRecorderIsFinished);
-            _localStorage = saveToMobile ?? new SaveToMobile();
             _timeProvider = timeProvider ?? new RealTimeProvider();
             _fileAccess = fileAccess ?? new FileSystemAccess();
         }
@@ -39,7 +38,6 @@ namespace DL
             RecordFinishedEvent += recordFinishedEventHandler;
 
             _recorder = new ExtendedAudioRecorderService(HandleRecorderIsFinished);
-            _localStorage = new SaveToMobile();
             _timeProvider = new RealTimeProvider();
             _fileAccess = new FileSystemAccess();
         }
@@ -56,11 +54,10 @@ namespace DL
 
             Measurement tempMeasureDTO = new Measurement(_timeProvider.GetDateTime());
 
-            using (var stream = _recorder.GetAudioFileStream())
-            {
-                tempMeasureDTO.SoundStream = stream;
-                _localStorage.Save(_fileAccess.GetCombinePath("Recording.wav"), stream);
-            }
+            var stream = _recorder.GetAudioFileStream();
+            
+            tempMeasureDTO.SoundStream = stream;
+
 
             OnRecordingFinished(new RecordFinishedEventArgs
             {

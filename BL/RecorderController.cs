@@ -12,8 +12,9 @@ namespace BL
 {
     public class RecorderController : IRecorderController
     {
-
         private Measurement measureDTO;
+
+        #region Props
 
         private string _pageText = "Du har nu åbnet Plugin Audio Recorder skærmen";
 
@@ -38,23 +39,25 @@ namespace BL
             private set { _isRecording = value; }
         }
 
+        #endregion
+
+        #region Dependencies
 
         private IRecorder _recorderLogic;
         private ISoundModifyLogic _soundModifyLogic;
         private IAnalyzeLogic _analyse;
         private ISaveData _dataStorage;
 
+        #endregion
+
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-           // _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
             _recorderLogic = new Recorder(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic(null);
-
             _analyse = new AnalyzeLogic(handleAnalyzeFinishedEvent);
+            _dataStorage = new FakeStorage(); //ligger som internal class
 
             IsRecording = false;
-            
-            _dataStorage = new FakeStorage(); //ligger som internal class
         }
 
 
@@ -70,7 +73,6 @@ namespace BL
                 _recorderLogic.RecordAudio();
                 IsRecording = true;
             }
-
         }
         private Measurement _measureDTO;
 

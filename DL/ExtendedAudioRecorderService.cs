@@ -47,7 +47,8 @@ namespace DL
         {
             StopRecordingOnSilence = false;
             StopRecordingAfterTimeout = true;
-            AudioTimeout = 10;
+            //todo det er her vi sætter tiden til 10 eller 5 sek
+            AudioTimeout = 5;
 
             AudioInputReceived += handleRecordIsFinished;
         }

@@ -4,11 +4,7 @@ namespace DL
 {
     public interface ISoundPlayer
     {
-        /// <summary>
-        /// Her bliver der afspillede lyd fra default filen i AppDataDir
-        /// </summary>
-        void PlayRecording();
-        /// <summary>
+       /// <summary>
         /// Her bliver der afspillede en bestemt stream som skal injectieres.
         /// Denne Stream vil blive gemt i AppDataDir,
         /// hvorefter den bliver afspillet med vores default PlayRecording().

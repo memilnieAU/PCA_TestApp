@@ -10,13 +10,9 @@ namespace BL
 
         public SoundModifyLogic(ISoundPlayer soundPlayer)
         {
-            _soundPlayer = (soundPlayer == null ? new SoundPlayer() : soundPlayer);
+            _soundPlayer = soundPlayer ?? new SoundPlayer();
         }
         
-        public void PlayRecording()
-        {
-            _soundPlayer.PlayRecording();
-        }
         public void PlayRecording(Stream sound)
         {
             _soundPlayer.PlayRecording(sound);

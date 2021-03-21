@@ -19,9 +19,11 @@ namespace DL
     {
         public void Save(string saveToFilePath, Stream elementToSave)
         {
-            var fileStream = new FileStream(saveToFilePath, FileMode.Create, FileAccess.Write);
-            elementToSave.CopyTo(fileStream);
-            fileStream.Dispose();
+            using (var fileStream = new FileStream(saveToFilePath, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                elementToSave.CopyTo(fileStream);
+                fileStream.Dispose();
+            }
         }
     }
 }

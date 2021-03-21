@@ -6,33 +6,46 @@ using Xamarin.Essentials;
 
 namespace DL
 {
-    public class SoundPlayer : ISoundPlayer
+    public class ExtendedAudioPlayer : AudioPlayer , IAudioPlayer
     {
-
-        public string _filePath = Path.Combine(FileSystem.AppDataDirectory, "Recording.wav");
-        private AudioPlayer player;
-
-        public SoundPlayer()
-        {
-            player = new AudioPlayer();
-        }
-
-        /// <summary>
-        /// Her bliver der afspillede lyd fra default filen i AppDataDir
-        /// </summary>
-        public void PlayRecording()
+        public void PlaySound(string pathToAudioFile)
         {
             Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig" + DateTime.Now.ToString());
             try
             {
-                player.Play(_filePath);
+                Play(pathToAudioFile);
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig, men kunne ikke afspille" + DateTime.Now.ToString());
+                Debug.WriteLine("Optagelsen forsøges afspillles og optagelsen er færdig, men kunne ikke afspille " + DateTime.Now.ToString() + "\n" + e.Message);
             }
         }
 
+    }
+
+    public interface IAudioPlayer
+    {
+         event EventHandler FinishedPlaying;
+         void Pause();
+         void PlaySound(string pathToAudioFile);
+    }
+
+
+    public class SoundPlayer : ISoundPlayer
+    {
+        public string _filePath;
+        private IAudioPlayer _player;
+        private ISaveToMobile _localStorage;
+        private IFileAccess _fileAccess;
+
+        public SoundPlayer()
+        {
+            _fileAccess = new FileSystemAccess();
+            _localStorage = new SaveToMobile();
+            _player = new ExtendedAudioPlayer();
+
+            _filePath = _fileAccess.GetCombinePath("Recording.wav");
+        }
 
         /// <summary>
         /// Her bliver der afspillede en bestemt stream som skal injectieres.
@@ -45,9 +58,8 @@ namespace DL
         /// <param name="sound">Den specefikke lyd der ønskes afspillet</param>
         public void PlayRecording(Stream sound)
         {
-            //Todo denne skal fjernes når vi skal kunne loade fra vores database
-            //SaveFileStream(_filePath, sound);
-            PlayRecording();
+            _localStorage.Save(_filePath, sound);
+            _player.PlaySound(_filePath);
         }
 
 
@@ -62,8 +74,6 @@ namespace DL
             {
                 stream.CopyTo(fileStream);
                 fileStream.Dispose();
-                //TODO Skal vi lukke vores FileStream Sikkert ned????
-                //fileStream.Close();
             }
         }
     }
