@@ -39,14 +39,15 @@ namespace BL
         }
 
 
-        private IRecorderLogic _recorderLogic;
+        private IRecorder _recorderLogic;
         private ISoundModifyLogic _soundModifyLogic;
         private IAnalyzeLogic _analyse;
         private ISaveData _dataStorage;
 
         public RecorderController(EventHandler<AnalyzeFinishedEventArgs> handleAnalyzeFinishedEvent)
         {
-            _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
+           // _recorderLogic = new RecorderLogic(HandleRecordingFinishedEvent);
+            _recorderLogic = new Recorder(HandleRecordingFinishedEvent);
             _soundModifyLogic = new SoundModifyLogic(null);
 
             _analyse = new AnalyzeLogic(handleAnalyzeFinishedEvent);

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="DL.Recorder" BaseTypeListCollapsed="true">
-    <Position X="7.75" Y="4.5" Width="4.25" />
+    <Position X="6" Y="4.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>ABAEAAAAAABAQAQAAAFAAAAAAACAAAgAAAAAAggAAAA=</HashCode>
+      <HashCode>ABAEAAAAAAAAQAQAAAEAAAAAAACAAAAAAAAAAggAAAA=</HashCode>
       <FileName>Recorder.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.194" />
   </Class>
   <Class Name="DL.SoundPlayer" BaseTypeListCollapsed="true">
     <Position X="8" Y="2" Width="2.75" />
@@ -20,7 +20,7 @@
     <Position X="14" Y="2.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>ExtendedAudioRecorderService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -28,15 +28,15 @@
     <Position X="14.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>SaveToMobile.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DL.RealTimeProvicer" BaseTypeListCollapsed="true">
+  <Class Name="DL.RealTimeProvider" BaseTypeListCollapsed="true">
     <Position X="17.25" Y="2.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAIAIAAAEAAAAAAAAAgAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>RealTimeProvider.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -58,28 +58,28 @@
     <Position X="6" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAACAAAEAAAAAAAAEgAAABEAAAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>ExtendedAudioRecorderService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DL.ISaveToMobile">
     <Position X="4" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>SaveToMobile.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DL.ITimeProvider">
     <Position X="10.25" Y="9" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>RealTimeProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DL.IStopWatch">
     <Position X="10.25" Y="10.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAABAAAAAAAAIAIAAAAAAAAIAAAAgAAAAA=</HashCode>
-      <FileName>Recorder.cs</FileName>
+      <FileName>RealTimeProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

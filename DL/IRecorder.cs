@@ -10,8 +10,6 @@ namespace DL
 {
     public interface IRecorder
     {
-        event EventHandler<RecordFinishedEventArgs> RecordFinishedEvent;
         void RecordAudio();
-
     }
 }
