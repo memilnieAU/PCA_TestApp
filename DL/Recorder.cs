@@ -48,7 +48,7 @@ namespace DL
             _recorder.StartRecording();
         }
 
-        private void HandleRecorderIsFinished(object sender, string e)
+        public void HandleRecorderIsFinished(object sender, string e)
         {
             _timeProvider.StopTimer(true, true);
 

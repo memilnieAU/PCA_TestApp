@@ -8,7 +8,6 @@ namespace BL.TESTS.UNIT
         public void Setup()
         {
             
-            //todo Bruges til test af Rebase
         }
 
         [Test]
